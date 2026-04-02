@@ -6,17 +6,19 @@ variable "GCP_PROJECT_ID" {
 variable "GCP_REGION" {
   description = "The GCP region to deploy to (e.g., us-central1)."
   type        = string
-  default     = "us-central1"
 }
 
 variable "GCP_SERVICE_NAME" {
   description = "The name of the Cloud Run service."
   type        = string
-  default     = "artemis-tracker"
 }
 
 variable "GCP_REPOSITORY" {
   description = "The name of the Artifact Registry repository."
   type        = string
-  default     = "artemis-images"
+}
+
+variable "GCP_STATE_BUCKET" {
+  description = "The name of the GCS bucket for Terraform state."
+  type        = string
 }

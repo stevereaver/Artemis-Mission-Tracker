@@ -3,19 +3,23 @@ provider "google" {
   region  = var.GCP_REGION
 }
 
+terraform {
+  backend "gcs" {}
+}
+
 # Enable necessary Google Cloud APIs
 resource "google_project_service" "run" {
-  service = "run.googleapis.com"
+  service            = "run.googleapis.com"
   disable_on_destroy = false
 }
 
 resource "google_project_service" "artifactregistry" {
-  service = "artifactregistry.googleapis.com"
+  service            = "artifactregistry.googleapis.com"
   disable_on_destroy = false
 }
 
 resource "google_project_service" "cloudbuild" {
-  service = "cloudbuild.googleapis.com"
+  service            = "cloudbuild.googleapis.com"
   disable_on_destroy = false
 }
 
@@ -27,4 +31,17 @@ resource "google_artifact_registry_repository" "artemis_images" {
   format        = "DOCKER"
 
   depends_on = [google_project_service.artifactregistry]
+}
+
+# Create the GCS bucket for Terraform remote state
+resource "google_storage_bucket" "state_bucket" {
+  name          = var.GCP_STATE_BUCKET
+  location      = var.GCP_REGION
+  force_destroy = false
+  storage_class = "STANDARD"
+
+  versioning {
+    enabled = true
+  }
+  uniform_bucket_level_access = true
 }
