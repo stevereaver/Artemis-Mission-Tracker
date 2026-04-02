@@ -1,0 +1,8 @@
+# Exclude git and notes
+.git
+.gitignore
+*.pdf
+pdf_text.txt
+implementation_plan.md
+task.md
+walkthrough.md

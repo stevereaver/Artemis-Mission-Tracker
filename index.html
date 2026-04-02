@@ -145,6 +145,52 @@
             text-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
         }
 
+        .timezone-selector {
+            position: absolute;
+            top: 2.5rem;
+            left: 2.5rem;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--glass-border);
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-out 0.5s both;
+        }
+
+        .timezone-selector label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .timezone-selector select {
+            background: transparent;
+            border: none;
+            color: #38bdf8;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            outline: none;
+            padding: 2px 0;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        .timezone-selector select option {
+            background: var(--bg-color);
+            color: var(--text-primary);
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -270,33 +316,67 @@
 
         .timeline {
             position: relative;
-            padding-left: 2.5rem;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
         }
 
         .timeline::before {
             content: '';
             position: absolute;
-            left: 0.5rem;
+            left: 50%;
+            transform: translateX(-50%);
             top: 0;
             bottom: 0;
             width: 2px;
             background: linear-gradient(to bottom, #38bdf8, #8b5cf6, transparent);
+            z-index: 1;
         }
 
         .timeline-item {
             position: relative;
             margin-bottom: 2.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
         }
 
         .timeline-item:last-child {
             margin-bottom: 0;
         }
 
+        .timeline-half {
+            width: 45%;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .crew-side {
+            text-align: right;
+            margin-right: 5%;
+        }
+
+        .attitude-side {
+            text-align: left;
+            margin-left: 5%;
+        }
+
+        .crew-side h3 {
+            flex-direction: row-reverse;
+        }
+
+        .crew-side .time-badge {
+            margin-left: 0.5rem;
+            margin-right: 0;
+        }
+
         .timeline-dot {
             position: absolute;
-            left: -2.35rem;
-            /* ~ 0.5rem + 14px circle offset */
-            top: 0.3rem;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
             width: 14px;
             height: 14px;
             border-radius: 50%;
@@ -308,17 +388,17 @@
 
         .timeline-playhead {
             position: absolute;
-            left: calc(0.5rem - 5px);
+            left: 50%;
             top: 0;
-            width: 12px;
-            height: 12px;
+            transform: translate(-50%, -50%);
+            width: 16px;
+            height: 16px;
             border-radius: 50%;
             background: #fff;
             box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.7), 0 0 20px #38bdf8;
             z-index: 10;
             transition: top 1s linear;
             display: none;
-            /* hidden until initialized */
         }
 
         .time-badge {
@@ -351,6 +431,110 @@
             line-height: 1.6;
         }
 
+        .flight-path-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 2/1;
+            /* matches 1000x500 box */
+            border-radius: 16px;
+            overflow: hidden;
+            background: #000;
+            border: 1px solid var(--glass-border);
+            margin-bottom: 2rem;
+            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.8);
+        }
+
+        .flight-path-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.65;
+            mix-blend-mode: lighten;
+        }
+
+        .flight-path-container svg#flight-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+        }
+
+        .spaceship-icon {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            margin-left: -16px;
+            margin-top: -16px;
+            z-index: 20;
+            filter: drop-shadow(0 0 10px #38bdf8);
+            transform-origin: center;
+        }
+
+        .speed-controls {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--glass-border);
+            padding: 0.5rem;
+            border-radius: 12px;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            z-index: 30;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .speed-controls .label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-right: 0.25rem;
+        }
+
+        .speed-btn {
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-primary);
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .speed-btn:hover {
+            background: rgba(56, 189, 248, 0.1);
+        }
+
+        .speed-btn.active {
+            background: rgba(56, 189, 248, 0.2);
+            border-color: rgba(56, 189, 248, 0.5);
+            color: #38bdf8;
+        }
+
+        .speed-btn.reset-btn {
+            color: #f87171;
+            display: flex;
+            align-items: center;
+        }
+
+        .speed-btn.reset-btn:hover {
+            background: rgba(248, 113, 113, 0.1);
+            color: #fca5a5;
+        }
+
         @media (max-width: 640px) {
             .timeline-container {
                 padding: 1.5rem;
@@ -379,13 +563,23 @@
     <div class="container">
         <header>
             <h1>Artemis II Mission Tracker</h1>
-            <p class="subtitle">Follow along in real time.</p>
+            <p class="subtitle">Crewed Lunar Flyby</p>
         </header>
 
         <div class="video-wrapper">
+            <div class="timezone-selector">
+                <label>Timezone</label>
+                <select id="timezone-select" onchange="updateTimezone(this.value)">
+                    <option value="America/New_York">Eastern Time</option>
+                    <option value="America/Chicago" selected>Central Time</option>
+                    <option value="America/Los_Angeles">Pacific Time</option>
+                    <option value="Australia/Sydney">AEDT (Sydney)</option>
+                    <option value="UTC">GMT (Zulu)</option>
+                </select>
+            </div>
             <div class="mission-clock">
                 <span class="label">Mission Time</span>
-                <span class="time" id="timer">01:52:00</span>
+                <span class="time" id="timer">00:00:00</span>
             </div>
             <div class="video-container">
                 <iframe width="560" height="315" src="https://www.youtube.com/embed/m3kR2KK8TEs?si=RL7UtACxLqNa4GLj"
@@ -397,74 +591,308 @@
         </div>
 
         <div class="timeline-container">
-            <h2>Flight Day 01 Timeline</h2>
+            <h2>Live Artemis Trajectory</h2>
+            <div class="flight-path-container">
+                <!-- Our visually stunning background -->
+                <img src="flight_path.png" alt="Artemis Flight Path Background">
+                <svg viewBox="0 0 1000 500" id="flight-svg" preserveAspectRatio="none">
+                    <!-- Invisible or faint dashed path for our figure-8 tracking line -->
+                    <path id="trajectory-line"
+                        d="M 250,250 C 100,50 500,50 500,250 C 500,450 900,450 750,250 C 600,50 500,50 500,250 C 500,450 100,450 250,250"
+                        fill="none" stroke="rgba(56, 189, 248, 0.3)" stroke-width="3" stroke-dasharray="10 15" />
+                </svg>
+                <div id="spaceship" class="spaceship-icon">
+                    <svg viewBox="0 0 24 24" width="32" height="32" fill="#0f172a" stroke="#38bdf8" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
+                        <path
+                            d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
+                        <path d="M9 12H4s.55-3.03 2-4c1.08-1.62 0-5 0-5" />
+                        <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+                    </svg>
+                </div>
+
+                <div class="speed-controls">
+                    <button class="speed-btn reset-btn" onclick="resetSimulation()" title="Reset to Start">
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            style="vertical-align: middle; margin-right: 4px;">
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                            <path d="M3 3v5h5" />
+                        </svg>
+                        Reset
+                    </button>
+                    <div style="width: 1px; height: 16px; background: rgba(255,255,255,0.2); margin: 0 4px;"></div>
+                    <span class="label">Speed</span>
+                    <button class="speed-btn speed-multiplier active" onclick="setSpeed(1, event)">1x</button>
+                    <button class="speed-btn speed-multiplier" onclick="setSpeed(500, event)">500x</button>
+                    <button class="speed-btn speed-multiplier" onclick="setSpeed(5000, event)">5000x</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-container">
+            <h2 id="timeline-title">Flight Day 01 Timeline</h2>
             <div class="timeline" id="timeline">
                 <div class="timeline-playhead" id="playhead"></div>
-
-                <div class="timeline-item" data-time="3000">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3><span class="time-badge">00:50:00</span> ICPS PRM</h3>
-                        <p>Interim Cryogenic Propulsion Stage burn to raise perigee.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item" data-time="6420">
-                    <div class="timeline-dot"
-                        style="border-color: #a78bfa; box-shadow: 0 0 10px rgba(167, 139, 250, 0.5);"></div>
-                    <div class="timeline-content">
-                        <h3><span class="time-badge">01:47:00</span> Apogee Raise Burn TIG</h3>
-                        <p>Time of Ignition for the critical Apogee Raise Burn.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item" data-time="12180">
-                    <div class="timeline-dot"
-                        style="border-color: #ec4899; box-shadow: 0 0 10px rgba(236, 72, 153, 0.5);"></div>
-                    <div class="timeline-content">
-                        <h3><span class="time-badge">03:23:00</span> Orion &amp; ICPS Separation</h3>
-                        <p>Physical spring separation of the Orion spacecraft from the ICPS.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item" data-time="17460">
-                    <div class="timeline-dot"
-                        style="border-color: #10b981; box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);"></div>
-                    <div class="timeline-content">
-                        <h3><span class="time-badge">04:51:00</span> Orion USS</h3>
-                        <p>Orion Upper Stage Separation events.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item" data-time="18120">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3><span class="time-badge">05:02:00</span> ICPS Disposal Burn</h3>
-                        <p>Secondary burn to dispose of the ICPS stage.</p>
-                    </div>
-                </div>
+                <!-- Dynamic Events Container -->
+                <div id="timeline-events"></div>
             </div>
         </div>
     </div>
 
     <script>
-        // Mission Time Logic
-        // Starting at 1 hour 52 minutes (6720 seconds)
-        let totalSeconds = (1 * 3600) + (52 * 60);
+        const missionEvents = [
+            // FD01
+            [
+                { t: -25200, type: 'crew', color: '#3b82f6', title: 'Wake & Prep', desc: 'End of 8.5hr sleep cycle.' },
+                { t: -18000, type: 'crew', color: '#3b82f6', title: 'Meal', desc: 'Pre-launch meal.' },
+                { t: -14400, type: 'crew', color: '#3b82f6', title: 'Med Kit Check', desc: 'Medical prep.' },
+                { t: -7200, type: 'attitude', color: '#f59e0b', title: 'T-Roll MNVRs', desc: 'Roll maneuver pre-checks.' },
+                { t: -3600, type: 'attitude', color: '#a78bfa', title: 'Pre ARB C/Os', desc: 'Apogee raise burn checkouts.' },
+                { t: 0, type: 'attitude', color: '#ec4899', title: 'Liftoff / Ascent', desc: 'Artemis II Launch!' },
+                { t: 1800, type: 'attitude', color: '#ec4899', title: 'Start Cabin Depress', desc: 'Cabin depressurization test (~0/00:30)' },
+                { t: 3000, type: 'attitude', color: '', title: 'ICPS PRM', desc: 'Propulsion Stage perigee raise maneuver. (0/00:50)' },
+                { t: 6420, type: 'attitude', color: '#a78bfa', title: 'ARB TIG', desc: 'Ignition for Apogee Raise Burn. (0/01:47)' },
+                { t: 10000, type: 'crew', color: '#3b82f6', title: 'Doff OCSS Suits', desc: 'Crew removes launch pressure suits in stable orbit.' },
+                { t: 12180, type: 'attitude', color: '#ec4899', title: 'Orion/ICPS Sep', desc: 'Spacecraft physically separates. (0/03:23)' },
+                { t: 13000, type: 'crew', color: '#3b82f6', title: 'Prox Ops Demo', desc: 'Crew manually pilots Orion around the ICPS.' },
+                { t: 16000, type: 'crew', color: '#3b82f6', title: 'Cabin Config', desc: 'Converting hardware for zero-g orbital living.' },
+                { t: 17460, type: 'attitude', color: '#10b981', title: 'Orion USS', desc: 'Upper Stage Separation. (0/04:51)' },
+                { t: 18000, type: 'attitude', color: '', title: 'Dock Cam Bearing', desc: 'Docking camera bearing operations. (~0/05:00)' },
+                { t: 18120, type: 'attitude', color: '', title: 'ICPS Disposal', desc: 'Secondary burn to dispose stage. (0/05:02)' },
+                { t: 19620, type: 'attitude', color: '#f59e0b', title: 'SPL Deploys', desc: 'Solar array panels deployed. (~0/05:27)' },
+                { t: 25000, type: 'crew', color: '#3b82f6', title: 'Crew: Meal', desc: 'First on-orbit meal.' },
+                { t: 30000, type: 'crew', color: '#3b82f6', title: 'Pulse Ox', desc: 'Blood oxygen and medical vitals.' },
+                { t: 36360, type: 'attitude', color: '', title: 'OpComm Activation', desc: 'Optical Comms activated. (~0/10:06)' },
+                { t: 40000, type: 'crew', color: '#3b82f6', title: 'Private Medical Conf', desc: 'PMC routine.' },
+                { t: 48600, type: 'attitude', color: '#10b981', title: 'Orion PRB', desc: 'Perigee Raise Burn. (~0/13:30)' },
+                { t: 51300, type: 'attitude', color: '#a78bfa', title: 'OpNav Checkout', desc: 'Optical Navigation checks. (~0/14:15)' },
+                { t: 55000, type: 'crew', color: '#3b82f6', title: 'Daily Planning', desc: 'FD01 Conference (DPC).' }
+            ],
+            // FD02
+            [
+                { t: 64000, type: 'crew', color: '#3b82f6', title: 'Sleep (4 hrs)', desc: 'First segment of the split sleep period.' },
+                { t: 70200, type: 'crew', color: '#3b82f6', title: 'Wake & DPC', desc: 'Morning sync.' },
+                { t: 80000, type: 'crew', color: '#3b82f6', title: 'Sleep (4.5 hrs)', desc: 'Second segment of the split sleep period.' },
+                { t: 90522, type: 'attitude', color: '#ec4899', title: 'Orion TLI / Prox Ops', desc: 'Trans-Lunar Injection prep. (~1/01:08:42)' },
+                { t: 100000, type: 'crew', color: '#3b82f6', title: 'Meals & Exercise', desc: 'Fitness protocol blocks.' },
+                { t: 110000, type: 'crew', color: '#3b82f6', title: 'Pulse Ox', desc: 'Medical vital check.' },
+                { t: 120000, type: 'crew', color: '#3b82f6', title: 'Private Medical Conf', desc: 'Medical updates.' },
+                { t: 136800, type: 'attitude', color: '#10b981', title: 'CM/SM Survey', desc: 'Service Module survey. (1/14:00)' },
+                { t: 145000, type: 'crew', color: '#3b82f6', title: 'Crew PAO Event', desc: 'Public Affairs broadcasting.' },
+                { t: 150000, type: 'attitude', color: '#f59e0b', title: 'SAWs in Full Shadow', desc: 'Solar arrays placed in shadow. (~1/17:40)' },
+                { t: 160000, type: 'crew', color: '#3b82f6', title: 'Sleep (8.5 hrs)', desc: 'Standard rest cycle.' }
+            ],
+            // FD03
+            [
+                { t: 174000, type: 'crew', color: '#3b82f6', title: 'Wake & DPC', desc: 'Morning schedule.' },
+                { t: 176922, type: 'attitude', color: '#a78bfa', title: 'OTC-1', desc: 'Optical Telescope Checkout-1. (~2/01:08:42)' },
+                { t: 185000, type: 'crew', color: '#3b82f6', title: 'Exercise & Pulses', desc: 'Medical metrics.' },
+                { t: 205000, type: 'attitude', color: '#f59e0b', title: 'PTC Roll', desc: 'Passive Thermal Control (barbecue roll).' },
+                { t: 220000, type: 'crew', color: '#3b82f6', title: 'Meals & PMC', desc: 'Dinnertime.' },
+                { t: 250000, type: 'crew', color: '#3b82f6', title: 'Sleep (8.5 hrs)', desc: 'Standard sleep cycle.' }
+            ],
+            // FD04
+            [
+                { t: 260000, type: 'crew', color: '#3b82f6', title: 'Wake & DPC', desc: 'Daily Planning.' },
+                { t: 263322, type: 'attitude', color: '#a78bfa', title: 'OTC-2', desc: 'Second optical navigation checkout. (~3/01:08:42)' },
+                { t: 270000, type: 'crew', color: '#3b82f6', title: 'Pulse Ox', desc: 'Medical screening.' },
+                { t: 284400, type: 'attitude', color: '#ec4899', title: 'Acoustic DFTO 7', desc: 'Start 24 Hr Acoustic Test. (3/07:00)' },
+                { t: 300000, type: 'crew', color: '#3b82f6', title: 'Exercise Block', desc: 'Fitness.' },
+                { t: 320000, type: 'crew', color: '#3b82f6', title: 'Meals & PAO', desc: 'Live event.' },
+                { t: 340000, type: 'crew', color: '#3b82f6', title: 'Sleep (9.5 hrs)', desc: 'Shifted 1 hr later.' }
+            ],
+            // FD05
+            [
+                { t: 350000, type: 'crew', color: '#3b82f6', title: 'Wake & DPC', desc: 'Planning.' },
+                { t: 361792, type: 'attitude', color: '#a78bfa', title: 'OTC-3', desc: 'Third optical navigation checkout. (4/04:29:52)' },
+                { t: 369480, type: 'attitude', color: '#8b5cf6', title: 'Lunar SOI Entry', desc: 'Entering Moon gravity influence. (4/06:38)' },
+                { t: 380000, type: 'crew', color: '#3b82f6', title: 'Meals & Exercise', desc: 'Routines.' },
+                { t: 400000, type: 'attitude', color: '#f59e0b', title: 'Attitude Tracking', desc: 'Maneuvering for flyby.' },
+                { t: 410000, type: 'crew', color: '#3b82f6', title: 'PMC', desc: 'Medical checkup.' },
+                { t: 420000, type: 'crew', color: '#3b82f6', title: 'Sleep (8.5 hrs)', desc: 'Shifted 45 mins earlier.' }
+            ],
+            // FD06
+            [
+                { t: 430000, type: 'crew', color: '#3b82f6', title: 'Early Wake', desc: 'Lunar flyby prep.' },
+                { t: 433799, type: 'attitude', color: '#ec4899', title: 'Lunar Close Approach', desc: 'Closest point to lunar surface. (5/00:29:59)' },
+                { t: 434100, type: 'attitude', color: '#f59e0b', title: 'Max Earth Distance', desc: 'Furthest absolute point from Earth. (5/00:35)' },
+                { t: 450000, type: 'crew', color: '#3b82f6', title: 'Exercise & Pulse', desc: 'Routine post-flyby.' },
+                { t: 477000, type: 'attitude', color: '#10b981', title: 'CM/SM Survey', desc: 'Major payload survey. (5/12:30)' },
+                { t: 490000, type: 'crew', color: '#3b82f6', title: 'PAO Event', desc: 'Flyby broadcast.' },
+                { t: 499980, type: 'attitude', color: '#8b5cf6', title: 'Lunar SOI Exit', desc: 'Targeting Earth. (5/18:53)' },
+                { t: 510000, type: 'crew', color: '#3b82f6', title: 'Sleep (8.5 hrs)', desc: 'Shifted 1hr earlier.' }
+            ],
+            // FD07
+            [
+                { t: 520000, type: 'crew', color: '#3b82f6', title: 'Wake & DPC', desc: 'Return voyage routines.' },
+                { t: 523792, type: 'attitude', color: '#a78bfa', title: 'RTC-1', desc: 'Return Telescope Checkout. (6/01:29:52)' },
+                { t: 540000, type: 'crew', color: '#3b82f6', title: 'Pulse Ox & Exercise', desc: 'Metrics.' },
+                { t: 560000, type: 'attitude', color: '#f59e0b', title: 'PTC Roll', desc: 'Passive Thermal Control resumed.' },
+                { t: 580000, type: 'crew', color: '#3b82f6', title: 'Meals & PMC', desc: 'Evening prep.' },
+                { t: 595000, type: 'crew', color: '#3b82f6', title: 'Sleep (8.5 hrs)', desc: 'Standard cycle.' }
+            ],
+            // FD08
+            [
+                { t: 610000, type: 'crew', color: '#3b82f6', title: 'Wake & DPC', desc: 'Day 8 planning.' },
+                { t: 625000, type: 'attitude', color: '#f59e0b', title: 'Comm Pointing', desc: 'Routine system checks.' },
+                { t: 640000, type: 'crew', color: '#3b82f6', title: 'Exercise & Meals', desc: 'Routine block.' },
+                { t: 667800, type: 'attitude', color: '#ec4899', title: 'FCS Checkouts', desc: 'Flight Control System checks. (7/17:30)' },
+                { t: 675000, type: 'crew', color: '#3b82f6', title: 'PMC & PAO', desc: 'Broadcasting.' },
+                { t: 680000, type: 'crew', color: '#3b82f6', title: 'Sleep (8.5 hrs)', desc: 'Standard cycle.' }
+            ],
+            // FD09
+            [
+                { t: 695000, type: 'crew', color: '#3b82f6', title: 'Wake & DPC', desc: 'Entry Prep begins.' },
+                { t: 707350, type: 'attitude', color: '#a78bfa', title: 'RTC-2', desc: 'Second optical checking. (8/04:29:10)' },
+                { t: 730000, type: 'crew', color: '#3b82f6', title: 'Stowage Prep', desc: 'Securing loose items.' },
+                { t: 750000, type: 'crew', color: '#3b82f6', title: 'Pulse Ox & Meals', desc: 'Final medical checks.' },
+                { t: 764950, type: 'attitude', color: '#10b981', title: 'RTC-3', desc: 'Final optical nav verification. (8/20:29:10)' },
+                { t: 770000, type: 'crew', color: '#3b82f6', title: 'Short Sleep (4 hrs)', desc: 'Nap before entry sequence.' }
+            ],
+            // FD10
+            [
+                { t: 778000, type: 'crew', color: '#3b82f6', title: 'Suit Up', desc: 'Donning OCSS suits.' },
+                { t: 781740, type: 'attitude', color: '#ec4899', title: 'CM/SM Separation', desc: 'Service Module disposal. (9/01:09)' },
+                { t: 782940, type: 'attitude', color: '#f59e0b', title: 'Entry Interface', desc: 'Fiery re-entry into Earths atmosphere. (9/01:29)' },
+                { t: 783400, type: 'attitude', color: '#f59e0b', title: 'Skip Maneuver', desc: 'Shedding velocity in atmosphere.' },
+                { t: 783768, type: 'attitude', color: '#8b5cf6', title: 'Splashdown!', desc: 'Pacific Ocean touchdown! (9/01:42:48)' }
+            ]
+        ];
+
+        const LAUNCH_DATE_UTC = new Date("2026-04-01T22:00:00Z");
+        let currentFlightDayIndex = -1;
+        let totalSeconds = Math.floor((Date.now() - LAUNCH_DATE_UTC.getTime()) / 1000);
+        let timeMultiplier = 1;
+        let selectedTimezone = 'America/Chicago';
+
+        function updateTimezone(tz) {
+            selectedTimezone = tz;
+            currentFlightDayIndex = -1; // Force re-render of timeline
+            checkAndRenderTimeline();
+        }
+
+        function formatTimeBadge(seconds) {
+            // Displays true Mission Elapsed Time (MET)
+            const absSec = Math.abs(seconds);
+            const h = Math.floor(absSec / 3600);
+            const m = Math.floor((absSec % 3600) / 60);
+            const prefix = seconds < 0 ? '-' : '';
+            const metStr = prefix + String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0');
+
+            // Calculate Local Time for the selected timezone
+            const eventDate = new Date(LAUNCH_DATE_UTC.getTime() + seconds * 1000);
+            const localStr = eventDate.toLocaleTimeString('en-US', {
+                timeZone: selectedTimezone,
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit',
+                timeZoneName: 'short'
+            });
+
+            return `${metStr} <span style="opacity: 0.6; font-size: 0.8em; margin-left: 4px;">(${localStr})</span>`;
+        }
+
+        function checkAndRenderTimeline() {
+            // FD01 starts exactly 7 hours before launch (-25200) and ends 17 hours after (61200).
+            const flightDay = Math.floor((totalSeconds + 25200) / 86400); // 0-indexed (FD01 = 0)
+            const targetIndex = Math.max(0, Math.min(flightDay, missionEvents.length - 1));
+
+            if (targetIndex !== currentFlightDayIndex) {
+                currentFlightDayIndex = targetIndex;
+                const events = missionEvents[currentFlightDayIndex] || [];
+
+                const titleNode = document.getElementById('timeline-title');
+                if (titleNode) titleNode.textContent = `Flight Day ${String(currentFlightDayIndex + 1).padStart(2, '0')} Timeline`;
+
+                const eventsContainer = document.getElementById('timeline-events');
+                if (!eventsContainer) return;
+
+                let html = '';
+                events.forEach(ev => {
+                    const styleStr = ev.color ? `style="border-color: ${ev.color}; box-shadow: 0 0 10px ${ev.color}80;"` : '';
+                    const isCrew = ev.type === 'crew';
+
+                    const emptyHalf = `<div class="timeline-half"></div>`;
+                    const contentHalf = `
+                    <div class="timeline-half ${isCrew ? 'crew-side' : 'attitude-side'}">
+                        <div class="timeline-content">
+                            <h3>
+                                ${isCrew ? ev.title : '<span class="time-badge">' + formatTimeBadge(ev.t) + '</span> ' + ev.title} 
+                                ${isCrew ? '<span class="time-badge">' + formatTimeBadge(ev.t) + '</span>' : ''}
+                            </h3>
+                            <p>${ev.desc}</p>
+                        </div>
+                    </div>`;
+
+                    html += `
+                    <div class="timeline-item" data-time="${ev.t}">
+                        ${isCrew ? contentHalf + '<div class="timeline-dot" ' + styleStr + '></div>' + emptyHalf : emptyHalf + '<div class="timeline-dot" ' + styleStr + '></div>' + contentHalf}
+                    </div>`;
+                });
+                eventsContainer.innerHTML = html;
+            }
+        }
+
+        function setSpeed(multiplier, event) {
+            timeMultiplier = multiplier;
+            // Update button styles
+            document.querySelectorAll('.speed-multiplier').forEach(btn => btn.classList.remove('active'));
+            if (event) event.target.classList.add('active');
+        }
+
+        function resetSimulation() {
+            // Set so the next updateTimer call puts us exactly at initial live time at 1x
+            totalSeconds = Math.floor((Date.now() - LAUNCH_DATE_UTC.getTime()) / 1000) - 1;
+            setSpeed(1, null);
+            document.querySelectorAll('.speed-multiplier').forEach(btn => btn.classList.remove('active'));
+            const firstSpeedBtn = document.querySelector('.speed-multiplier');
+            if (firstSpeedBtn) firstSpeedBtn.classList.add('active');
+            updateTimer();
+            updateSpaceship();
+        }
 
         function updateTimer() {
-            totalSeconds++;
+            totalSeconds += timeMultiplier;
 
-            const h = Math.floor(totalSeconds / 3600);
-            const m = Math.floor((totalSeconds % 3600) / 60);
-            const s = totalSeconds % 60;
+            let display = '';
+            
+            if (totalSeconds < 0) {
+                // T-Minus Pre-launch format
+                const absSec = Math.abs(totalSeconds);
+                const h = Math.floor(absSec / 3600);
+                const m = Math.floor((absSec % 3600) / 60);
+                const s = Math.floor(absSec % 60);
+                display = 'T- ' + 
+                    String(h).padStart(2, '0') + ':' +
+                    String(m).padStart(2, '0') + ':' +
+                    String(s).padStart(2, '0');
+            } else {
+                // Mission time is technically Day / Hour / Min
+                const h = Math.floor(totalSeconds / 3600);
+                const m = Math.floor((totalSeconds % 3600) / 60);
+                const s = Math.floor(totalSeconds % 60);
 
-            const display =
-                String(h).padStart(2, '0') + ':' +
-                String(m).padStart(2, '0') + ':' +
-                String(s).padStart(2, '0');
+                // Add Day marker if we exceed 24h
+                if (h >= 24) {
+                    const days = Math.floor(h / 24);
+                    const hoursLeft = h % 24;
+                    display = `FD0${days + 1}/` +
+                        String(hoursLeft).padStart(2, '0') + ':' +
+                        String(m).padStart(2, '0') + ':' +
+                        String(s).padStart(2, '0');
+                } else {
+                    display =
+                        String(h).padStart(2, '0') + ':' +
+                        String(m).padStart(2, '0') + ':' +
+                        String(s).padStart(2, '0');
+                }
+            }
 
             document.getElementById('timer').textContent = display;
+            checkAndRenderTimeline();
             updatePlayhead();
         }
 
@@ -482,9 +910,9 @@
                 const itemTime = parseInt(items[i].getAttribute('data-time'));
                 const nextTime = items[i + 1] ? parseInt(items[i + 1].getAttribute('data-time')) : itemTime + 3600;
 
-                // roughly center of the dot (which has top: 0.3rem -> ~5px)
-                const itemTop = items[i].offsetTop + 5;
-                const nextTop = items[i + 1] ? items[i + 1].offsetTop + 5 : containerMaxHeight;
+                // roughly center of the row 
+                const itemTop = items[i].offsetTop + (items[i].offsetHeight / 2);
+                const nextTop = items[i + 1] ? items[i + 1].offsetTop + (items[i + 1].offsetHeight / 2) : containerMaxHeight;
 
                 if (totalSeconds < itemTime && i === 0) {
                     // Before the first event
@@ -511,9 +939,44 @@
             playhead.style.top = top + 'px';
         }
 
+        function updateSpaceship() {
+            const ship = document.getElementById('spaceship');
+            const path = document.getElementById('trajectory-line');
+            const container = document.querySelector('.flight-path-container');
+
+            if (!ship || !path || !container) return;
+
+            // Assumes a theoretical 10-day loop for display purposes
+            const totalMissionSeconds = 10 * 24 * 3600;
+            const progress = totalSeconds <= 0 ? 0 : (totalSeconds % totalMissionSeconds) / totalMissionSeconds;
+
+            const pathLength = path.getTotalLength();
+            const point = path.getPointAtLength(progress * pathLength);
+
+            const scaleX = container.offsetWidth / 1000;
+            const scaleY = container.offsetHeight / 500;
+
+            const x = point.x * scaleX;
+            const y = point.y * scaleY;
+
+            ship.style.left = x + 'px';
+            ship.style.top = y + 'px';
+
+            // Next point to calculate orientation
+            const nextPoint = path.getPointAtLength(((progress + 0.0001) * pathLength) % pathLength);
+            let angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * 180 / Math.PI;
+            ship.style.transform = `rotate(${angle + 45}deg)`;
+        }
+
         // Initialize immediately
+        checkAndRenderTimeline();
         updatePlayhead();
-        setInterval(updateTimer, 1000);
+        updateSpaceship();
+
+        setInterval(() => {
+            updateTimer();
+            updateSpaceship();
+        }, 1000);
     </script>
 </body>
 
