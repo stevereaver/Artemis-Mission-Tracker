@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Showcase</title>
+    <title>Artemis Mission Tracker</title>
     <style>
         :root {
             --bg-color: #0f172a;
@@ -28,15 +28,14 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             overflow-x: hidden;
         }
 
         .container {
             width: 100%;
-            max-width: 1100px;
-            padding: 2rem;
-            margin-top: 5rem;
+            max-width: 1320px;
+            padding: 0 2rem 2rem 2rem;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
@@ -46,61 +45,57 @@
             transition: max-width 0.5s ease;
         }
 
-        .main-layout {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-            width: 100%;
-        }
-
         @media (min-width: 1200px) {
             .container {
-                max-width: 1440px;
-            }
-
-            .main-layout {
-                flex-direction: row;
-                align-items: flex-start;
-                gap: 3rem;
-            }
-
-            .primary-column {
-                flex: 1.8;
-                display: flex;
-                flex-direction: column;
-                gap: 2rem;
-                min-width: 0;
+                max-width: 100%;
+                padding: 0 4rem 4rem 4rem;
             }
 
             .secondary-column {
-                flex: 1;
-                position: sticky;
-                top: 6rem;
-                min-width: 0;
+                max-width: 550px;
             }
         }
 
         header {
-            text-align: center;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0.5) 100%);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(56, 189, 248, 0.1);
             animation: fadeInDown 1s ease-out;
+            box-sizing: border-box;
+        }
+
+        .header-main {
+            text-align: center;
+            flex: 1;
         }
 
         h1 {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: 700;
-            margin: 0 0 0.5rem 0;
+            margin: 0;
             background: linear-gradient(135deg, #38bdf8 0%, #8b5cf6 100%);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: -0.05em;
+            letter-spacing: -0.02em;
         }
 
         p.subtitle {
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             color: var(--text-secondary);
             margin: 0;
             font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
         }
 
         .video-wrapper {
@@ -135,14 +130,33 @@
             background: #000;
         }
 
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .main-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
             width: 100%;
-            height: 100%;
-            border: none;
-            border-radius: 12px;
+            padding-top: 2.5rem; /* ensure spacing under persistent header */
+        }
+
+        @media (min-width: 1200px) {
+            .main-layout {
+                flex-direction: row;
+                align-items: flex-start;
+                gap: 4rem;
+            }
+
+            .primary-column {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 2rem;
+                min-width: 0;
+            }
+
+            .secondary-column {
+                flex: 0 0 480px;
+                min-width: 0;
+            }
         }
 
 
@@ -163,50 +177,34 @@
             text-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
         }
 
-        .mission-control-bar {
-            position: fixed;
+        .video-container iframe {
+            position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            padding: 1.5rem 0;
-            pointer-events: none;
-            background: transparent;
-            backdrop-filter: none;
-            opacity: 0;
-            animation: fadeIn 1s ease-out 1s both;
-        }
-
-        .mission-control-inner {
             width: 100%;
-            max-width: 1100px;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            pointer-events: auto;
-            box-sizing: border-box;
+            height: 100%;
+            border: none;
+            border-radius: 12px;
         }
 
         .timezone-selector,
         .mission-clock {
             position: relative;
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            padding: 0.5rem 1rem;
-            border-radius: 12px;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            padding: 0.4rem 0.8rem;
+            border-radius: 10px;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            animation: none;
-            /* Reset animation since parent handles it */
-            top: auto;
-            left: auto;
-            right: auto;
+            transition: all 0.3s ease;
+        }
+
+        .timezone-selector:hover,
+        .mission-clock:hover {
+            background: rgba(15, 23, 42, 0.8);
+            border-color: rgba(56, 189, 248, 0.4);
         }
 
         .mission-clock {
@@ -614,8 +612,8 @@
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
 
-    <div class="mission-control-bar">
-        <div class="mission-control-inner">
+    <div class="container">
+        <header>
             <div class="timezone-selector">
                 <label>Timezone</label>
                 <select id="timezone-select" onchange="updateTimezone(this.value)">
@@ -626,24 +624,24 @@
                     <option value="UTC">GMT (Zulu)</option>
                 </select>
             </div>
+
+            <div class="header-main">
+                <h1>Artemis II Mission Tracker</h1>
+                <p class="subtitle">Crewed Lunar Flyby</p>
+            </div>
+
             <div class="mission-clock">
                 <span class="label">Mission Time</span>
                 <span class="time" id="timer">00:00:00</span>
             </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <header>
-            <h1>Artemis II Mission Tracker</h1>
-            <p class="subtitle">Crewed Lunar Flyby</p>
         </header>
 
         <div class="main-layout">
             <div class="primary-column">
                 <div class="video-wrapper">
                     <div class="video-container">
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/m3kR2KK8TEs?si=RL7UtACxLqNa4GLj"
+                        <iframe width="560" height="315"
+                            src="https://www.youtube.com/embed/m3kR2KK8TEs?si=RL7UtACxLqNa4GLj"
                             title="YouTube video player" frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                             referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
@@ -660,7 +658,8 @@
                             <!-- Invisible or faint dashed path for our figure-8 tracking line -->
                             <path id="trajectory-line"
                                 d="M 250,250 C 100,50 500,50 500,250 C 500,450 900,450 750,250 C 600,50 500,50 500,250 C 500,450 100,450 250,250"
-                                fill="none" stroke="rgba(56, 189, 248, 0.3)" stroke-width="3" stroke-dasharray="10 15" />
+                                fill="none" stroke="rgba(56, 189, 248, 0.3)" stroke-width="3"
+                                stroke-dasharray="10 15" />
                         </svg>
                         <div id="spaceship" class="spaceship-icon">
                             <svg viewBox="0 0 24 24" width="32" height="32" fill="#0f172a" stroke="#38bdf8"
@@ -710,121 +709,79 @@
 
     <script>
         const missionEvents = [
-            // FD01
+            // FD01: Liftoff to High Earth Orbit
             [
-                { t: -25200, type: 'crew', color: '#3b82f6', title: 'Wake & Prep', desc: 'End of 8.5hr sleep cycle.' },
-                { t: -18000, type: 'crew', color: '#3b82f6', title: 'Meal', desc: 'Pre-launch meal.' },
-                { t: -14400, type: 'crew', color: '#3b82f6', title: 'Med Kit Check', desc: 'Medical prep.' },
-                { t: -7200, type: 'attitude', color: '#f59e0b', title: 'T-Roll MNVRs', desc: 'Roll maneuver pre-checks.' },
-                { t: -3600, type: 'attitude', color: '#a78bfa', title: 'Pre ARB C/Os', desc: 'Apogee raise burn checkouts.' },
-                { t: 0, type: 'attitude', color: '#ec4899', title: 'Liftoff / Ascent', desc: 'Artemis II Launch!' },
-                { t: 1800, type: 'attitude', color: '#ec4899', title: 'Start Cabin Depress', desc: 'Cabin depressurization test (~0/00:30)' },
-                { t: 3000, type: 'attitude', color: '', title: 'ICPS PRM', desc: 'Propulsion Stage perigee raise maneuver. (0/00:50)' },
-                { t: 6420, type: 'attitude', color: '#a78bfa', title: 'ARB TIG', desc: 'Ignition for Apogee Raise Burn. (0/01:47)' },
-                { t: 10000, type: 'crew', color: '#3b82f6', title: 'Doff OCSS Suits', desc: 'Crew removes launch pressure suits in stable orbit.' },
-                { t: 12180, type: 'attitude', color: '#ec4899', title: 'Orion/ICPS Sep', desc: 'Spacecraft physically separates. (0/03:23)' },
-                { t: 13000, type: 'crew', color: '#3b82f6', title: 'Prox Ops Demo', desc: 'Crew manually pilots Orion around the ICPS.' },
-                { t: 16000, type: 'crew', color: '#3b82f6', title: 'Cabin Config', desc: 'Converting hardware for zero-g orbital living.' },
-                { t: 17460, type: 'attitude', color: '#10b981', title: 'Orion USS', desc: 'Upper Stage Separation. (0/04:51)' },
-                { t: 18000, type: 'attitude', color: '', title: 'Dock Cam Bearing', desc: 'Docking camera bearing operations. (~0/05:00)' },
-                { t: 18120, type: 'attitude', color: '', title: 'ICPS Disposal', desc: 'Secondary burn to dispose stage. (0/05:02)' },
-                { t: 19620, type: 'attitude', color: '#f59e0b', title: 'SPL Deploys', desc: 'Solar array panels deployed. (~0/05:27)' },
-                { t: 25000, type: 'crew', color: '#3b82f6', title: 'Crew: Meal', desc: 'First on-orbit meal.' },
-                { t: 30000, type: 'crew', color: '#3b82f6', title: 'Pulse Ox', desc: 'Blood oxygen and medical vitals.' },
-                { t: 36360, type: 'attitude', color: '', title: 'OpComm Activation', desc: 'Optical Comms activated. (~0/10:06)' },
-                { t: 40000, type: 'crew', color: '#3b82f6', title: 'Private Medical Conf', desc: 'PMC routine.' },
-                { t: 48600, type: 'attitude', color: '#10b981', title: 'Orion PRB', desc: 'Perigee Raise Burn. (~0/13:30)' },
-                { t: 51300, type: 'attitude', color: '#a78bfa', title: 'OpNav Checkout', desc: 'Optical Navigation checks. (~0/14:15)' },
-                { t: 55000, type: 'crew', color: '#3b82f6', title: 'Daily Planning', desc: 'FD01 Conference (DPC).' }
+                { t: -18000, type: 'crew', color: '#3b82f6', title: 'T-Roll / Prep', desc: 'Pre-launch maneuver check and final meal.' },
+                { t: 0, type: 'attitude', color: '#ec4899', title: 'Liftoff / Ascent', desc: 'Artemis II Launch Hour Zero' },
+                { t: 1800, type: 'attitude', color: '#ec4899', title: 'Cabin Depress', desc: 'Start Cabin Depress DFTO 3, 2 (~0/00:30)' },
+                { t: 3000, type: 'attitude', color: '#f59e0b', title: 'ICPS PRM', desc: 'Perigee Raise Maneuver (0/00:50)' },
+                { t: 6420, type: 'attitude', color: '#a78bfa', title: 'ARB TIG', desc: 'Apogee Raise Burn Ignition (0/01:47)' },
+                { t: 9000, type: 'crew', color: '#3b82f6', title: 'Doff OCSS', desc: 'Doff pressure suits (~0/02:30)' },
+                { t: 12180, type: 'attitude', color: '#ec4899', title: 'Spring Sep', desc: 'Orion/ICPS Spring Separation (0/03:23)' },
+                { t: 13500, type: 'crew', color: '#3b82f6', title: 'Prox Ops Demo', desc: 'Orion Pilot Demo (0/03:45)' },
+                { t: 17460, type: 'attitude', color: '#10b981', title: 'Orion USS', desc: 'Upper Stage Separation (0/04:51)' },
+                { t: 18120, type: 'attitude', color: '#f59e0b', title: 'ICPS Disposal', desc: 'Disposal Burn (0/05:02)' },
+                { t: 19620, type: 'attitude', color: '#10b981', title: 'SPL Deploys', desc: 'Solar Array Panels Deployed (~0/05:27)' },
+                { t: 21600, type: 'crew', color: '#3b82f6', title: 'Cab Cnfg', desc: 'Cabin Configuration for zero-g (~0/06:00)' },
+                { t: 27000, type: 'crew', color: '#3b82f6', title: 'FD Conf', desc: 'First Daily Planning Conference (0/07:30)' },
+                { t: 32400, type: 'crew', color: '#3b82f6', title: 'PMC', desc: 'Private Medical Conference (0/09:00)' },
+                { t: 36000, type: 'crew', color: '#3b82f6', title: 'Sleep (Part 1)', desc: 'First 4-hour rest cycle starts (0/10:00)' },
+                { t: 48600, type: 'attitude', color: '#a78bfa', title: 'Orion PRB', desc: 'Perigee Raise Burn Ignition (0/13:30)' },
+                { t: 51300, type: 'attitude', color: '#a78bfa', title: 'OpNav C/O', desc: 'Optical Navigation Checkout (~0/14:15)' },
+                { t: 54000, type: 'crew', color: '#3b82f6', title: 'Sleep (Part 2)', desc: 'Final 4.5-hour rest cycle (0/15:00)' }
             ],
-            // FD02
+            // FD02: TLI to Trans-Lunar Phase
             [
-                { t: 64000, type: 'crew', color: '#3b82f6', title: 'Sleep (4 hrs)', desc: 'First segment of the split sleep period.' },
-                { t: 70200, type: 'crew', color: '#3b82f6', title: 'Wake & DPC', desc: 'Morning sync.' },
-                { t: 80000, type: 'crew', color: '#3b82f6', title: 'Sleep (4.5 hrs)', desc: 'Second segment of the split sleep period.' },
-                { t: 90522, type: 'attitude', color: '#ec4899', title: 'Orion TLI / Prox Ops', desc: 'Trans-Lunar Injection prep. (~1/01:08:42)' },
-                { t: 100000, type: 'crew', color: '#3b82f6', title: 'Meals & Exercise', desc: 'Fitness protocol blocks.' },
-                { t: 110000, type: 'crew', color: '#3b82f6', title: 'Pulse Ox', desc: 'Medical vital check.' },
-                { t: 120000, type: 'crew', color: '#3b82f6', title: 'Private Medical Conf', desc: 'Medical updates.' },
-                { t: 136800, type: 'attitude', color: '#10b981', title: 'CM/SM Survey', desc: 'Service Module survey. (1/14:00)' },
-                { t: 145000, type: 'crew', color: '#3b82f6', title: 'Crew PAO Event', desc: 'Public Affairs broadcasting.' },
-                { t: 150000, type: 'attitude', color: '#f59e0b', title: 'SAWs in Full Shadow', desc: 'Solar arrays placed in shadow. (~1/17:40)' },
-                { t: 160000, type: 'crew', color: '#3b82f6', title: 'Sleep (8.5 hrs)', desc: 'Standard rest cycle.' }
+                { t: 68400, type: 'crew', color: '#3b82f6', title: 'DPC', desc: 'Flight Day 2 Morning Planning (MET 19:00)' },
+                { t: 90522, type: 'attitude', color: '#ec4899', title: 'Orion TLI', desc: 'Trans-Lunar Injection (~1/01:08:42)' },
+                { t: 118800, type: 'crew', color: '#3b82f6', title: 'FD Conf', desc: 'Planning Update (1/09:00)' },
+                { t: 122400, type: 'crew', color: '#3b82f6', title: 'PMC', desc: 'Medical Check (1/10:00)' },
+                { t: 126000, type: 'crew', color: '#3b82f6', title: 'Sleep', desc: '8.5-hour rest cycle begins (1/11:00)' },
+                { t: 136800, type: 'attitude', color: '#10b981', title: 'CM/SM Survey', desc: 'Service Module Inspection (1/14:00)' }
             ],
-            // FD03
+            // FD03: Trans-Lunar Phase
             [
-                { t: 174000, type: 'crew', color: '#3b82f6', title: 'Wake & DPC', desc: 'Morning schedule.' },
-                { t: 176922, type: 'attitude', color: '#a78bfa', title: 'OTC-1', desc: 'Optical Telescope Checkout-1. (~2/01:08:42)' },
-                { t: 185000, type: 'crew', color: '#3b82f6', title: 'Exercise & Pulses', desc: 'Medical metrics.' },
-                { t: 205000, type: 'attitude', color: '#f59e0b', title: 'PTC Roll', desc: 'Passive Thermal Control (barbecue roll).' },
-                { t: 220000, type: 'crew', color: '#3b82f6', title: 'Meals & PMC', desc: 'Dinnertime.' },
-                { t: 250000, type: 'crew', color: '#3b82f6', title: 'Sleep (8.5 hrs)', desc: 'Standard sleep cycle.' }
+                { t: 176922, type: 'attitude', color: '#a78bfa', title: 'OTC-1', desc: 'Optical Telescope Checkout-1 (~2/01:08:42)' },
+                { t: 205200, type: 'crew', color: '#3b82f6', title: 'FD Conf', desc: 'Mid-Voyage Planning (2/09:00)' },
+                { t: 212400, type: 'crew', color: '#3b82f6', title: 'Sleep', desc: '8.5-hour rest cycle (2/11:00)' }
             ],
-            // FD04
+            // FD04: Trans-Lunar Phase
             [
-                { t: 260000, type: 'crew', color: '#3b82f6', title: 'Wake & DPC', desc: 'Daily Planning.' },
-                { t: 263322, type: 'attitude', color: '#a78bfa', title: 'OTC-2', desc: 'Second optical navigation checkout. (~3/01:08:42)' },
-                { t: 270000, type: 'crew', color: '#3b82f6', title: 'Pulse Ox', desc: 'Medical screening.' },
-                { t: 284400, type: 'attitude', color: '#ec4899', title: 'Acoustic DFTO 7', desc: 'Start 24 Hr Acoustic Test. (3/07:00)' },
-                { t: 300000, type: 'crew', color: '#3b82f6', title: 'Exercise Block', desc: 'Fitness.' },
-                { t: 320000, type: 'crew', color: '#3b82f6', title: 'Meals & PAO', desc: 'Live event.' },
-                { t: 340000, type: 'crew', color: '#3b82f6', title: 'Sleep (9.5 hrs)', desc: 'Shifted 1 hr later.' }
+                { t: 263322, type: 'attitude', color: '#a78bfa', title: 'OTC-2', desc: 'Optical Telescope Checkout-2 (3/01:08:42)' },
+                { t: 284400, type: 'attitude', color: '#ec4899', title: 'Acoustic DFTO', desc: 'Start 24 Hr Acoustic Test (3/07:00)' },
+                { t: 291600, type: 'crew', color: '#3b82f6', title: 'FD Conf', desc: 'Approach Planning (3/09:00)' },
+                { t: 298800, type: 'crew', color: '#3b82f6', title: 'Sleep', desc: 'Rest cycle (3/11:00)' }
             ],
-            // FD05
+            // FD05: Lunar Arrival
             [
-                { t: 350000, type: 'crew', color: '#3b82f6', title: 'Wake & DPC', desc: 'Planning.' },
-                { t: 361792, type: 'attitude', color: '#a78bfa', title: 'OTC-3', desc: 'Third optical navigation checkout. (4/04:29:52)' },
-                { t: 369480, type: 'attitude', color: '#8b5cf6', title: 'Lunar SOI Entry', desc: 'Entering Moon gravity influence. (4/06:38)' },
-                { t: 380000, type: 'crew', color: '#3b82f6', title: 'Meals & Exercise', desc: 'Routines.' },
-                { t: 400000, type: 'attitude', color: '#f59e0b', title: 'Attitude Tracking', desc: 'Maneuvering for flyby.' },
-                { t: 410000, type: 'crew', color: '#3b82f6', title: 'PMC', desc: 'Medical checkup.' },
-                { t: 420000, type: 'crew', color: '#3b82f6', title: 'Sleep (8.5 hrs)', desc: 'Shifted 45 mins earlier.' }
+                { t: 361792, type: 'attitude', color: '#a78bfa', title: 'OTC-3', desc: 'Final Lunar Approach Navigation (4/04:29:52)' },
+                { t: 369480, type: 'attitude', color: '#8b5cf6', title: 'Lunar SOI Entry', desc: 'Moon Sphere of Influence Entry (4/06:38)' },
+                { t: 378000, type: 'crew', color: '#3b82f6', title: 'FD Conf', desc: 'Arrival Briefing (4/09:00)' },
+                { t: 385200, type: 'crew', color: '#3b82f6', title: 'Sleep', desc: 'Final approach rest (4/11:00)' }
             ],
-            // FD06
+            // FD06: Lunar Flyby
             [
-                { t: 430000, type: 'crew', color: '#3b82f6', title: 'Early Wake', desc: 'Lunar flyby prep.' },
-                { t: 433799, type: 'attitude', color: '#ec4899', title: 'Lunar Close Approach', desc: 'Closest point to lunar surface. (5/00:29:59)' },
-                { t: 434100, type: 'attitude', color: '#f59e0b', title: 'Max Earth Distance', desc: 'Furthest absolute point from Earth. (5/00:35)' },
-                { t: 450000, type: 'crew', color: '#3b82f6', title: 'Exercise & Pulse', desc: 'Routine post-flyby.' },
-                { t: 477000, type: 'attitude', color: '#10b981', title: 'CM/SM Survey', desc: 'Major payload survey. (5/12:30)' },
-                { t: 490000, type: 'crew', color: '#3b82f6', title: 'PAO Event', desc: 'Flyby broadcast.' },
-                { t: 499980, type: 'attitude', color: '#8b5cf6', title: 'Lunar SOI Exit', desc: 'Targeting Earth. (5/18:53)' },
-                { t: 510000, type: 'crew', color: '#3b82f6', title: 'Sleep (8.5 hrs)', desc: 'Shifted 1hr earlier.' }
+                { t: 433799, type: 'attitude', color: '#ec4899', title: 'Close Approach', desc: 'Lunar Flyby Min Distance (5/00:29:59)' },
+                { t: 434100, type: 'attitude', color: '#f59e0b', title: 'Max Distance', desc: 'Maximum Earth Distance (5/00:35)' },
+                { t: 464400, type: 'crew', color: '#3b82f6', title: 'FD Conf', desc: 'Flyby Review (5/09:00)' },
+                { t: 477000, type: 'attitude', color: '#10b981', title: 'CM/SM Survey', desc: 'Post-Lunar Survey (5/12:30)' },
+                { t: 499980, type: 'attitude', color: '#8b5cf6', title: 'Lunar SOI Exit', desc: 'Returning to Earth (5/18:53)' }
             ],
-            // FD07
+            // FD07-FD09: Trans-Earth
             [
-                { t: 520000, type: 'crew', color: '#3b82f6', title: 'Wake & DPC', desc: 'Return voyage routines.' },
-                { t: 523792, type: 'attitude', color: '#a78bfa', title: 'RTC-1', desc: 'Return Telescope Checkout. (6/01:29:52)' },
-                { t: 540000, type: 'crew', color: '#3b82f6', title: 'Pulse Ox & Exercise', desc: 'Metrics.' },
-                { t: 560000, type: 'attitude', color: '#f59e0b', title: 'PTC Roll', desc: 'Passive Thermal Control resumed.' },
-                { t: 580000, type: 'crew', color: '#3b82f6', title: 'Meals & PMC', desc: 'Evening prep.' },
-                { t: 595000, type: 'crew', color: '#3b82f6', title: 'Sleep (8.5 hrs)', desc: 'Standard cycle.' }
+                { t: 523792, type: 'attitude', color: '#a78bfa', title: 'RTC-1', desc: 'Return Telescope Checkout-1 (6/01:29:52)' },
+                { t: 550800, type: 'crew', color: '#3b82f6', title: 'FD Conf', desc: 'Entry Prep Update (6/09:00)' },
+                { t: 637200, type: 'crew', color: '#3b82f6', title: 'FD Conf', desc: 'Entry Sequence Review (7/09:00)' },
+                { t: 667800, type: 'attitude', color: '#ec4899', title: 'FCS C/Os', desc: 'Flight Control System Checks (7/17:30)' },
+                { t: 707350, type: 'attitude', color: '#a78bfa', title: 'RTC-2', desc: 'Return Nav Verification-2 (8/04:29:10)' },
+                { t: 723600, type: 'crew', color: '#3b82f6', title: 'FD Conf', desc: 'Final Landing Brief (8/09:00)' },
+                { t: 764950, type: 'attitude', color: '#a78bfa', title: 'RTC-3', desc: 'Return Nav Verification-3 (8/20:29:10)' }
             ],
-            // FD08
+            // FD10: Entry and Recovery
             [
-                { t: 610000, type: 'crew', color: '#3b82f6', title: 'Wake & DPC', desc: 'Day 8 planning.' },
-                { t: 625000, type: 'attitude', color: '#f59e0b', title: 'Comm Pointing', desc: 'Routine system checks.' },
-                { t: 640000, type: 'crew', color: '#3b82f6', title: 'Exercise & Meals', desc: 'Routine block.' },
-                { t: 667800, type: 'attitude', color: '#ec4899', title: 'FCS Checkouts', desc: 'Flight Control System checks. (7/17:30)' },
-                { t: 675000, type: 'crew', color: '#3b82f6', title: 'PMC & PAO', desc: 'Broadcasting.' },
-                { t: 680000, type: 'crew', color: '#3b82f6', title: 'Sleep (8.5 hrs)', desc: 'Standard cycle.' }
-            ],
-            // FD09
-            [
-                { t: 695000, type: 'crew', color: '#3b82f6', title: 'Wake & DPC', desc: 'Entry Prep begins.' },
-                { t: 707350, type: 'attitude', color: '#a78bfa', title: 'RTC-2', desc: 'Second optical checking. (8/04:29:10)' },
-                { t: 730000, type: 'crew', color: '#3b82f6', title: 'Stowage Prep', desc: 'Securing loose items.' },
-                { t: 750000, type: 'crew', color: '#3b82f6', title: 'Pulse Ox & Meals', desc: 'Final medical checks.' },
-                { t: 764950, type: 'attitude', color: '#10b981', title: 'RTC-3', desc: 'Final optical nav verification. (8/20:29:10)' },
-                { t: 770000, type: 'crew', color: '#3b82f6', title: 'Short Sleep (4 hrs)', desc: 'Nap before entry sequence.' }
-            ],
-            // FD10
-            [
-                { t: 778000, type: 'crew', color: '#3b82f6', title: 'Suit Up', desc: 'Donning OCSS suits.' },
-                { t: 781740, type: 'attitude', color: '#ec4899', title: 'CM/SM Separation', desc: 'Service Module disposal. (9/01:09)' },
-                { t: 782940, type: 'attitude', color: '#f59e0b', title: 'Entry Interface', desc: 'Fiery re-entry into Earths atmosphere. (9/01:29)' },
-                { t: 783400, type: 'attitude', color: '#f59e0b', title: 'Skip Maneuver', desc: 'Shedding velocity in atmosphere.' },
-                { t: 783768, type: 'attitude', color: '#8b5cf6', title: 'Splashdown!', desc: 'Pacific Ocean touchdown! (9/01:42:48)' }
+                { t: 781740, type: 'attitude', color: '#ec4899', title: 'CM/SM Sep', desc: 'Module Physical Separation (9/01:09)' },
+                { t: 782940, type: 'attitude', color: '#f59e0b', title: 'Entry Interface', desc: 'Atmospheric Re-entry (9/01:29)' },
+                { t: 783768, type: 'attitude', color: '#8b5cf6', title: 'Splashdown!', desc: 'Splashdown in Pacific! (9/01:42:48)' }
             ]
         ];
 
@@ -924,14 +881,14 @@
             totalSeconds += timeMultiplier;
 
             let display = '';
-            
+
             if (totalSeconds < 0) {
                 // T-Minus Pre-launch format
                 const absSec = Math.abs(totalSeconds);
                 const h = Math.floor(absSec / 3600);
                 const m = Math.floor((absSec % 3600) / 60);
                 const s = Math.floor(absSec % 60);
-                display = 'T- ' + 
+                display = 'T- ' +
                     String(h).padStart(2, '0') + ':' +
                     String(m).padStart(2, '0') + ':' +
                     String(s).padStart(2, '0');
