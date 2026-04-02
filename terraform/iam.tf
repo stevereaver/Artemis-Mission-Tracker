@@ -23,6 +23,12 @@ resource "google_project_iam_member" "service_account_user" {
   member  = "serviceAccount:${google_service_account.github_actions.email}"
 }
 
+resource "google_project_iam_member" "storage_admin" {
+  project = var.GCP_PROJECT_ID
+  role    = "roles/storage.objectAdmin"
+  member  = "serviceAccount:${google_service_account.github_actions.email}"
+}
+
 # Generate a Service Account Key for GitHub Secrets
 resource "google_service_account_key" "github_actions_key" {
   service_account_id = google_service_account.github_actions.name

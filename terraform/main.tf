@@ -48,9 +48,10 @@ resource "google_storage_bucket" "state_bucket" {
 
 # Create the Cloud Run service
 resource "google_cloud_run_v2_service" "artemis_tracker" {
-  name     = var.GCP_SERVICE_NAME
-  location = var.GCP_REGION
-  ingress  = "INGRESS_TRAFFIC_ALL"
+  name                = var.GCP_SERVICE_NAME
+  location            = var.GCP_REGION
+  ingress             = "INGRESS_TRAFFIC_ALL"
+  deletion_protection = false
 
   template {
     containers {
