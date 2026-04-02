@@ -25,13 +25,19 @@ resource "google_project_iam_member" "service_account_user" {
 
 resource "google_project_iam_member" "storage_admin" {
   project = var.GCP_PROJECT_ID
-  role    = "roles/storage.objectAdmin"
+  role    = "roles/storage.admin"
   member  = "serviceAccount:${google_service_account.github_actions.email}"
 }
 
 resource "google_project_iam_member" "service_usage_admin" {
   project = var.GCP_PROJECT_ID
   role    = "roles/serviceusage.serviceUsageAdmin"
+  member  = "serviceAccount:${google_service_account.github_actions.email}"
+}
+
+resource "google_project_iam_member" "project_iam_admin" {
+  project = var.GCP_PROJECT_ID
+  role    = "roles/resourcemanager.projectIamAdmin"
   member  = "serviceAccount:${google_service_account.github_actions.email}"
 }
 
