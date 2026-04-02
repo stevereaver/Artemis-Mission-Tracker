@@ -62,7 +62,7 @@ resource "google_cloud_run_v2_service" "artemis_tracker" {
     containers {
       image = var.GCP_IMAGE
       ports {
-        container_port = 8080
+        container_port = 80
       }
     }
   }
