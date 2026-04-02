@@ -9,6 +9,12 @@ env:
   REGION: ${{ secrets.GCP_REGION }}
   SERVICE: ${{ secrets.GCP_SERVICE_NAME }}
   REPOSITORY: ${{ secrets.GCP_REPOSITORY }}
+  # Terraform variables
+  TF_VAR_GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  TF_VAR_GCP_REGION: ${{ secrets.GCP_REGION }}
+  TF_VAR_GCP_SERVICE_NAME: ${{ secrets.GCP_SERVICE_NAME }}
+  TF_VAR_GCP_REPOSITORY: ${{ secrets.GCP_REPOSITORY }}
+  TF_VAR_GCP_STATE_BUCKET: ${{ secrets.GCP_STATE_BUCKET }}
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
