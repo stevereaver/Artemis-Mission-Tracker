@@ -32,19 +32,23 @@ jobs:
           gcloud auth configure-docker "${{ env.REGION }}-docker.pkg.dev"
 
       - name: Build and Push Container
+        id: build
         run: |-
           DOCKER_TAG="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}"
           docker build -t "${DOCKER_TAG}" .
           docker push "${DOCKER_TAG}"
+          echo "image=${DOCKER_TAG}" >> $GITHUB_OUTPUT
 
-      - name: Deploy to Cloud Run
-        id: deploy
-        uses: 'google-github-actions/deploy-cloudrun@v2'
-        with:
-          service: '${{ env.SERVICE }}'
-          region: '${{ env.REGION }}'
-          image: '${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}'
-          flags: '--allow-unauthenticated'
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        working-directory: ./terraform
+        run: terraform init -backend-config="bucket=${{ secrets.GCP_STATE_BUCKET }}"
+
+      - name: Terraform Apply
+        working-directory: ./terraform
+        run: terraform apply -auto-approve -var="GCP_IMAGE=${{ steps.build.outputs.image }}"
 
       - name: Show Output
-        run: echo "Deployed to ${{ steps.deploy.outputs.url }}"
+        run: echo "Deployment complete."

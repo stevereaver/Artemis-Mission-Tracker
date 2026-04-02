@@ -45,3 +45,34 @@ resource "google_storage_bucket" "state_bucket" {
   }
   uniform_bucket_level_access = true
 }
+
+# Create the Cloud Run service
+resource "google_cloud_run_v2_service" "artemis_tracker" {
+  name     = var.GCP_SERVICE_NAME
+  location = var.GCP_REGION
+  ingress  = "INGRESS_TRAFFIC_ALL"
+
+  template {
+    containers {
+      image = var.GCP_IMAGE
+      ports {
+        container_port = 8080
+      }
+    }
+  }
+
+  depends_on = [google_project_service.run]
+}
+
+# Allow public access to the Cloud Run service
+resource "google_cloud_run_v2_service_iam_member" "public_access" {
+  name     = google_cloud_run_v2_service.artemis_tracker.name
+  location = google_cloud_run_v2_service.artemis_tracker.location
+  role     = "roles/run.invoker"
+  member   = "allUsers"
+}
+
+output "service_url" {
+  value       = google_cloud_run_v2_service.artemis_tracker.uri
+  description = "The URL of the deployed Cloud Run service"
+}

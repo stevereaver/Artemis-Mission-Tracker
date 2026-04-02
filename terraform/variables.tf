@@ -22,3 +22,8 @@ variable "GCP_STATE_BUCKET" {
   description = "The name of the GCS bucket for Terraform state."
   type        = string
 }
+
+variable "GCP_IMAGE" {
+  description = "The Docker image name and tag."
+  type        = string
+}
