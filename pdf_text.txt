@@ -1,0 +1,443 @@
+ 
+Sep
+SFM
+Emer
+ -XSI
+ICPS PRM - 0/00:50^  ^Orion/ICPS Spring Sep -  0/03:23 ^OpComm Initial Act - ~0/10:06  ^Orion PRB  ~0/13:30
+ ARB TIG - 0/01:47^ Orion USS - 0/04:51^ ^SPL Deploys - ~0/05:27  ^OpNav C/O -~ 0/14:15
+Start Cabin Depress DFTO 3, 2 - ~00/00:30^ ICPS Disposal Burn - 0/05:02^  ^Dock Cam Bearing - ~0/05:00 FTO 225 
+SF
+B 
+-
+^ ECLSS CO2 Monitor DFTO ^Orion TLI -  ~01/01:08:42 ^ Dual Cam Bracket Install ^CM/SM Survey - 01/14:00
+Dock Cam & Asc Bracket Uninstall^ ^Bracket and Dock Cam -Config Transit ^SAW 1 & 3 Cam-Wifi DFTO OpCom ANU Demo ^
+^ HERA Command DFTO-EM2-09
+SF
+B -
+X
+^ Dual Cam Bracket Uninstall ^OTC-1 - ~02/01:08:42 ^ EMER Comm DFTO-EM2-22 Dock Cam Misalign - DFTO-EM2-03 ^
+^ Saws in Full Shadow ~001/17:40 ^ SAT Mode Test - DFTO-EM2-23 ^ Dock Cam & Bracket Install Dock Cam Misalign - DFTO-EM2-03 ^
+2
+Bias -XSI
+B -XSI B -XSI
+NG
+10
+10 11
+DCAM
+8 91
+Bias -XSI
+Meal
+Bias -XSI
+B-XSI
+High Earth Orbit Trans-Lunar
+13 14 154 5 6 73
+Bias -XSI
+SAT 
+Mode 
+B -XSI OTC
+Phase Trans-Lunar
+OpCom ANU
+FTOAttitude
+Pulse Ox
+DFTO
+1023MET 17 18 19 20 21 22 02/0 1 3
+FD03
+Crew
+DPC
+4
+Lunar 
+CabOTC-1
+CSA 
+PAO
+PMC
+FD Conf
+2 13
+DSN Emer 
+Comm
+8 9
+Attitude TLI
+Phase
+TLI
+Bias -XSI
+Nat Geo S/U
+Pulse Ox
+PAO
+Wnd 
+Inpect
+PMC
+TLI Conf
+Exercise Test M-42 
+EXT
+PRB
+DSN 
+ARB
+-XSI
+Sleep (4.5 hrs)
+FD02
+Crew
+DPC
+PFC
+NatGeo
+Toilet 
+Noise
+Survey
+17
+Day/Night
+11 12
+16 17
+Day/Night
+9
+Crew
+OpN
+av
+Phase Prelaunch LEO High Earth Orbit
+POD Att.
+Sep
+DFT
+O
+Bias -
+XSI
+OpComm
+FD Conf
+PRB
+Doff OCSS 4K 
+Enc 
+N2/ 
+O2 
+B -XSI
+PAO
+ Prox Ops 
+Demo
+USS2
+Cab Cnfg
+PAO
+PMC
+Artemis II
+Overview Timeline
+Translational Burn FTO/DFTO with Attitude 
+Req
+FTO/DFTO w/out 
+Attitude Req PAO Utilization Post/Pre Sleep
+15
+16 17
+OpCom ANU
+FD Conf
+143 4
+Sleep (4 hrs)
+5 11 12 136 7 8-3 -2
+22 23 01/021
+Med Kit
+-4
+Day/Night
+MET -7 -6
+12
+Sleep (8.5 hrs)
+Meal
+-5
+ARBAttitude
+Ascent
+Pre ARB 
+C/Os
+T-Roll 
+MNVRs
+OpCom ANU
+-1 00/0 1 2
+FD01
+MET 17 18 19 20
+Sleep (8.5 hrs)
+D5 Cam 
+Window
+O Nav
+14 15 165 6 7
+ Bias -XSI Bias -
+XSI DFTO B -XSI
+CPR 
+Demo
+PAO
+DFTO
+DU 
+3/18/2026 This document has been approved for public release per STRIVES # 20260002249. 1 of 3
+SF OTC
+^ Dock Cam & Bracket Uninstall ^OTC-2 - 3/01:08:42 ^ Min ECLSS DFTO EM2-16 OpCom-Class 1 CFDP Demo^
+^Start 24 Hr Acoustic DFTO-EM2-7 ^ Dock Cam & Bracket Install  Dock Cam Stray Light DFTO-EM-04 (Ealt)^ ^Dock Cam Misalign - DFTO-EM2-03
+^ NAV FTO EM2-223 03/07:00
+SF
+^End 24 Hr Acoustic DFTO 7 ^Vent to 10.2 psi  ^OTC-3 - 4/04:29:52  Dock Cam Misalign  DFTO-EM2-03^
+^ Dock Cam Uninstall ^ Lunar SOI Entry 4/06:38 OpCom ANU Demo ^
+^Dock Cam Stray Light - DFTO-EM-04 (M Prime)
+^ Dock Cam & Bracket Uninstall  ^Lunar Close Approach - 5/00:29:59 ^ Dock Cam & Bracket Install ^ CM/SM Survey - 05/12:30
+^ Apollo Distance Record ^ Max Earth Distance- 5/00:35 Lunar SOI Exit 5/18:53 ^
+SF
+^ Dual Cam Bracket Uninstall ^ RTC-1 - 6/01:29:52 ^ Dock Cam & Bracket Install ^Dock Cam WW Dump FTO
+ ^ Dock Cam Misalign
+14
+Post Lunar 
+Debrief
+RTC-1
+23 06/0 1 2
+Man 
+PLT 
+B -
+XSI B -XSIDFT
+OB -XSI B -XSI
+ECLSS 
+Wall 
+VentB -XSI
+Meal
+SAW PAO
+PFCs P/TV Exercise
+B -XSI FTO
+PMC
+DCAM
+FD Conf
+PFCs
+Meal
+CSA 
+VIP
+PAO
+Meal
+OCSS DFTO Ops
+Depress Ops
+Bias -XSI
+12 13
+Sleep (8.5 hrs) - shifting 1hr earlier
+Bias -XSI
+NG Lunar Doc & 
+Xfer
+PAO
+FD Conf
+SCI 
+Img
+13 1422
+DFTODFTOB -XSI
+C2C Call
+B -XSI
+14
+SCI Img
+DFTOBias -XSI Bias -XSI
+NG
+PMC
+FD Conf
+Day/Night
+O Nav B -XSIBias -XSI
+Sleep (8.5 hrs)
+Off Duty
+B -XSI RTC
+OpCom ANU
+Attitude
+OpCom ANU
+FD07
+Crew
+DPC
+Pulse Ox
+FTO WW View Bias -XSI
+Phase Trans-Earth
+MET
+2
+Obsv Survey
+Trans-EarthTrans-Lunar
+FD06
+Crew
+DPC
+Pulse Ox
+Phase
+PMC
+FD Conf
+Lunar 
+Conf
+Lunar 
+Config
+NG NG Meal
+PAO
+Attitude
+17
+OpCom ANU
+MET 17 18 19 20 21 22 5 8
+Day/Night
+23
+'Img
+3 4 9 10
+DFTO
+PMC
+Bias -XSI
+Crew
+O Nav B -XSI OTC
+OTC-3
+MET 17 18 19 20 21
+FD04
+Crew
+DPC
+Pulse Ox
+PFC
+Attitude
+PWD
+PWD
+NatGeo
+PWD 
+P/TV
+COGN
+FD05
+DPC
+Pulse Ox
+Attitude
+Phase Trans-Lunar
+OpCom ANU
+B -XSIB -XSIBias -XSI
+3
+Phase Trans-Lunar
+O Nav
+1523 04/0 1 2
+Img
+4 5 6 7 8 922
+Day/Night
+10 11 12 13
+Bias -
+XSI
+03/0 1 2 3 4 5MET 17 18 19 20 21 22 23 6 7 8 9 10 11
+ESA
+Lunar Img 
+Review
+Flywheel Day 
+in the life
+OTC-2 Meal
+05/0 1
+16
+16
+16 17
+17
+6 7 1511
+12 13 14 15
+FTO
+PPC
+NG
+6 7 8 9
+Sleep (9.5 hrs) - shifting 1 hr later
+17 18 19 10 11
+Day/Night
+5321 16 1712
+Sleep (8.5 hrs) - shifting 45 minutes earlier
+Bias -XSI Bias -XSI
+Lunar Obs Lunar Obs
+Bias -XSI
+154
+Off Duty
+20
+3/18/2026 This document has been approved for public release per STRIVES # 20260002249. 2 of 3
+PWD
+Dock Cam Uninstall ^ No PCD DFTO-EM2-21 ^ Dock Cam Install ^  ^Dock Cam Misalign - DFTO-EM2-03 ^ EI-34hr
+^urine venting DFTO EM2-26 Modal Survey DFTO-EM2-27^
+Exercise Acoustic DFTO-EM2-06 ^ ^Repress to 14.7 psi
+Bia               
+SF
+^FCS Checkouts - 7/17:30 ^RTC-2 - 8/04:29:10
+Dock Cam Stow ^
+Bias 
+SF
+SF
+Sep
+ ^RTC-3 - 8/20:29:10 ^CM/SM Sep - 09/01:09
+^ +X Leak detection DFTO  ^Entry Interface - 09/01:29
+ ^Splashdown - 09/01:42:48
+DFTO
+10 11
+Bias -XSI Bias -XSI
+CSA 
+PAO COGN
+Doc 
+Cam Man PLT 
+DFTO 1
+O Nav
+DFTOBias -XSI
+Trans-Earth Recovery
+9 10
+23 17
+Trans-Earth
+7
+OIG Don DFTO
+8
+91 2 3 4
+Phase
+9 10 11 121 2 3 4 5 6MET 17 18 19 20 21 22
+Entry 
+Conf
+FD Conf
+Sleep (8.5 hrs)
+Entry C/LCabin Config
+Cabin 
+13 14 15 16
+RTC Bias -XSI Mitigate X
+Phase
+OpCom
+EDL
+Bias -XSI Mitigate X
+OpCom ANU
+Attitude OpNav Bias -XSI       Bias -XSI      RTC
+-
+XSI EDL
+09/0
+FD10
+Crew
+PMC
+DPC
+Entry Stow
+Bias -XSI Mitigate X
+RTC-3 Recovery Ops
+Day/Night
+ANU
+Attitude DFTO Bias -XSI        
+FD09
+Crew
+Bias -XSI
+FD08
+Rad Shelter Demo
+DFTO
+3
+Entry 
+Study
+DPC
+Pulse Ox
+Urine RHC 
+Ques
+13
+Meal
+Bias -XSI       
+RTC-2
+ONWM
+S C/O
+Entry 
+Stow
+20 21 22 23 7 8
+DPC
+Pulse Ox
+Day/Night
+7 8
+Crew
+PMC
+DFTO
+CCU
+P/TV Exercise Repress
+NG
+Phase Trans-Earth
+OpCom ANU
+Attitude
+08/0 14 15 16MET 17 18 19
+PMC
+FD Conf
+Sleep (8.5 hrs)
+PAO
+NatGeo
+Meal
+PAO
+OIG Don DFTO
+Pad
+17
+16
+4 5 6
+Bias -XSI Mitigate 
+X
+Day/Night
+MET 17 18 19 20 21 22 23 07/0 5 6 14 15 17
+11 121 2
+12 13
+Bias -XSI
+3/18/2026 This document has been approved for public release per STRIVES # 20260002249. 3 of 3

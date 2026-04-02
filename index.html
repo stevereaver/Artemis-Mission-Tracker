@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Showcase</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --glass-bg: rgba(30, 41, 59, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --accent-glow: rgba(56, 189, 248, 0.5);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-color: var(--bg-color);
+            background-image:
+                radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.15), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.15), transparent 25%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            padding: 2rem;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0 0 0.5rem 0;
+            background: linear-gradient(135deg, #38bdf8 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.05em;
+        }
+
+        p.subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin: 0;
+            font-weight: 400;
+        }
+
+        .video-wrapper {
+            width: 100%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(56, 189, 248, 0.1);
+            position: relative;
+            animation: fadeInUp 1s ease-out 0.2s both;
+            box-sizing: border-box;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .video-wrapper:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6),
+                0 0 60px rgba(56, 189, 248, 0.2);
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            /* 16:9 ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            background: #000;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 12px;
+        }
+
+        .mission-clock {
+            position: absolute;
+            top: 2.5rem;
+            right: 2.5rem;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--glass-border);
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            z-index: 10;
+            pointer-events: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-out 0.5s both;
+        }
+
+        .mission-clock .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .mission-clock .time {
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #38bdf8;
+            text-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Ambient background animated blobs */
+        .blob {
+            position: fixed;
+            filter: blur(80px);
+            z-index: 0;
+            opacity: 0.5;
+            animation: float 20s infinite ease-in-out alternate;
+        }
+
+        .blob-1 {
+            top: -10%;
+            left: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: rgba(56, 189, 248, 0.2);
+            border-radius: 50%;
+        }
+
+        .blob-2 {
+            bottom: -10%;
+            right: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: rgba(139, 92, 246, 0.2);
+            border-radius: 50%;
+            animation-delay: -10s;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(5%, 10%) scale(1.1);
+            }
+        }
+
+        @media (max-width: 640px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .video-wrapper {
+                padding: 1rem;
+                border-radius: 16px;
+            }
+
+            .video-container iframe {
+                border-radius: 8px;
+            }
+
+            .mission-clock {
+                top: 1rem;
+                right: 1rem;
+                padding: 0.3rem 0.6rem;
+            }
+
+            .mission-clock .time {
+                font-size: 1.1rem;
+            }
+        }
+
+        .timeline-container {
+            width: 100%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-sizing: border-box;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(139, 92, 246, 0.1);
+            animation: fadeInUp 1s ease-out 0.4s both;
+            z-index: 1;
+        }
+
+        .timeline-container h2 {
+            font-size: 2rem;
+            margin: 0 0 2rem 0;
+            background: linear-gradient(135deg, #a78bfa 0%, #38bdf8 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            letter-spacing: -0.02em;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2.5rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #38bdf8, #8b5cf6, transparent);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2.5rem;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -2.35rem;
+            /* ~ 0.5rem + 14px circle offset */
+            top: 0.3rem;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #0f172a;
+            border: 2px solid #38bdf8;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+            z-index: 2;
+        }
+
+        .timeline-playhead {
+            position: absolute;
+            left: calc(0.5rem - 5px);
+            top: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.7), 0 0 20px #38bdf8;
+            z-index: 10;
+            transition: top 1s linear;
+            display: none;
+            /* hidden until initialized */
+        }
+
+        .time-badge {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.15);
+            color: #38bdf8;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            margin-right: 0.5rem;
+            vertical-align: middle;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            text-shadow: none;
+        }
+
+        .timeline-content h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.3rem;
+            color: #f8fafc;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+
+        .timeline-content p {
+            margin: 0;
+            color: #94a3b8;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 640px) {
+            .timeline-container {
+                padding: 1.5rem;
+            }
+
+            .timeline {
+                padding-left: 1.5rem;
+            }
+
+            .timeline-dot {
+                left: -1.35rem;
+            }
+        }
+    </style>
+    <!-- Modern system font fallback, importing Inter for a sleek look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=JetBrains+Mono:wght@700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <div class="container">
+        <header>
+            <h1>Artemis II Mission Tracker</h1>
+            <p class="subtitle">Follow along in real time.</p>
+        </header>
+
+        <div class="video-wrapper">
+            <div class="mission-clock">
+                <span class="label">Mission Time</span>
+                <span class="time" id="timer">01:52:00</span>
+            </div>
+            <div class="video-container">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/m3kR2KK8TEs?si=RL7UtACxLqNa4GLj"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+
+        <div class="timeline-container">
+            <h2>Flight Day 01 Timeline</h2>
+            <div class="timeline" id="timeline">
+                <div class="timeline-playhead" id="playhead"></div>
+
+                <div class="timeline-item" data-time="3000">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3><span class="time-badge">00:50:00</span> ICPS PRM</h3>
+                        <p>Interim Cryogenic Propulsion Stage burn to raise perigee.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item" data-time="6420">
+                    <div class="timeline-dot"
+                        style="border-color: #a78bfa; box-shadow: 0 0 10px rgba(167, 139, 250, 0.5);"></div>
+                    <div class="timeline-content">
+                        <h3><span class="time-badge">01:47:00</span> Apogee Raise Burn TIG</h3>
+                        <p>Time of Ignition for the critical Apogee Raise Burn.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item" data-time="12180">
+                    <div class="timeline-dot"
+                        style="border-color: #ec4899; box-shadow: 0 0 10px rgba(236, 72, 153, 0.5);"></div>
+                    <div class="timeline-content">
+                        <h3><span class="time-badge">03:23:00</span> Orion &amp; ICPS Separation</h3>
+                        <p>Physical spring separation of the Orion spacecraft from the ICPS.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item" data-time="17460">
+                    <div class="timeline-dot"
+                        style="border-color: #10b981; box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);"></div>
+                    <div class="timeline-content">
+                        <h3><span class="time-badge">04:51:00</span> Orion USS</h3>
+                        <p>Orion Upper Stage Separation events.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item" data-time="18120">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h3><span class="time-badge">05:02:00</span> ICPS Disposal Burn</h3>
+                        <p>Secondary burn to dispose of the ICPS stage.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mission Time Logic
+        // Starting at 1 hour 52 minutes (6720 seconds)
+        let totalSeconds = (1 * 3600) + (52 * 60);
+
+        function updateTimer() {
+            totalSeconds++;
+
+            const h = Math.floor(totalSeconds / 3600);
+            const m = Math.floor((totalSeconds % 3600) / 60);
+            const s = totalSeconds % 60;
+
+            const display =
+                String(h).padStart(2, '0') + ':' +
+                String(m).padStart(2, '0') + ':' +
+                String(s).padStart(2, '0');
+
+            document.getElementById('timer').textContent = display;
+            updatePlayhead();
+        }
+
+        function updatePlayhead() {
+            const items = Array.from(document.querySelectorAll('.timeline-item'));
+            const playhead = document.getElementById('playhead');
+            if (!playhead || items.length === 0) return;
+
+            playhead.style.display = 'block';
+
+            let top = 0;
+            const containerMaxHeight = document.getElementById('timeline').offsetHeight;
+
+            for (let i = 0; i < items.length; i++) {
+                const itemTime = parseInt(items[i].getAttribute('data-time'));
+                const nextTime = items[i + 1] ? parseInt(items[i + 1].getAttribute('data-time')) : itemTime + 3600;
+
+                // roughly center of the dot (which has top: 0.3rem -> ~5px)
+                const itemTop = items[i].offsetTop + 5;
+                const nextTop = items[i + 1] ? items[i + 1].offsetTop + 5 : containerMaxHeight;
+
+                if (totalSeconds < itemTime && i === 0) {
+                    // Before the first event
+                    const progress = Math.max(0, totalSeconds / itemTime);
+                    top = progress * itemTop;
+                    break;
+                } else if (totalSeconds >= itemTime && totalSeconds < nextTime) {
+                    // Interpolate between this and next event
+                    const progress = (totalSeconds - itemTime) / (nextTime - itemTime);
+                    top = itemTop + progress * (nextTop - itemTop);
+                    break;
+                } else if (i === items.length - 1 && totalSeconds >= itemTime) {
+                    // Past the last event
+                    const progress = (totalSeconds - itemTime) / 3600;
+                    top = itemTop + Math.min(progress * 50, containerMaxHeight - itemTop);
+                    break;
+                }
+            }
+
+            // Clamp to bounds
+            if (top < 0) top = 0;
+            if (top > containerMaxHeight) top = containerMaxHeight;
+
+            playhead.style.top = top + 'px';
+        }
+
+        // Initialize immediately
+        updatePlayhead();
+        setInterval(updateTimer, 1000);
+    </script>
+</body>
+
+</html>
