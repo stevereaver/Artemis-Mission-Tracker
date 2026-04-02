@@ -13,6 +13,11 @@ resource "google_project_service" "run" {
   disable_on_destroy = false
 }
 
+resource "google_project_service" "resourcemanager" {
+  service            = "cloudresourcemanager.googleapis.com"
+  disable_on_destroy = false
+}
+
 resource "google_project_service" "artifactregistry" {
   service            = "artifactregistry.googleapis.com"
   disable_on_destroy = false
