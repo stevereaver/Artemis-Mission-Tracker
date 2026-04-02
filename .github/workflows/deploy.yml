@@ -9,6 +9,7 @@ env:
   REGION: ${{ secrets.GCP_REGION }}
   SERVICE: ${{ secrets.GCP_SERVICE_NAME }}
   REPOSITORY: ${{ secrets.GCP_REPOSITORY }}
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   deploy:
