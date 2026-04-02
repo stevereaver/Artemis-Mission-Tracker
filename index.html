@@ -34,14 +34,50 @@
 
         .container {
             width: 100%;
-            max-width: 1000px;
+            max-width: 1100px;
             padding: 2rem;
+            margin-top: 5rem;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 2rem;
             z-index: 1;
+            transition: max-width 0.5s ease;
+        }
+
+        .main-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            width: 100%;
+        }
+
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 1440px;
+            }
+
+            .main-layout {
+                flex-direction: row;
+                align-items: flex-start;
+                gap: 3rem;
+            }
+
+            .primary-column {
+                flex: 1.8;
+                display: flex;
+                flex-direction: column;
+                gap: 2rem;
+                min-width: 0;
+            }
+
+            .secondary-column {
+                flex: 1;
+                position: sticky;
+                top: 6rem;
+                min-width: 0;
+            }
         }
 
         header {
@@ -109,24 +145,6 @@
             border-radius: 12px;
         }
 
-        .mission-clock {
-            position: absolute;
-            top: 2.5rem;
-            right: 2.5rem;
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid var(--glass-border);
-            padding: 0.5rem 1rem;
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            z-index: 10;
-            pointer-events: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            animation: fadeIn 1s ease-out 0.5s both;
-        }
 
         .mission-clock .label {
             font-size: 0.7rem;
@@ -145,22 +163,58 @@
             text-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
         }
 
-        .timezone-selector {
-            position: absolute;
-            top: 2.5rem;
-            left: 2.5rem;
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid var(--glass-border);
+        .mission-control-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            padding: 1.5rem 0;
+            pointer-events: none;
+            background: transparent;
+            backdrop-filter: none;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 1s both;
+        }
+
+        .mission-control-inner {
+            width: 100%;
+            max-width: 1100px;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            pointer-events: auto;
+            box-sizing: border-box;
+        }
+
+        .timezone-selector,
+        .mission-clock {
+            position: relative;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(56, 189, 248, 0.3);
             padding: 0.5rem 1rem;
             border-radius: 12px;
             display: flex;
             flex-direction: column;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            animation: none;
+            /* Reset animation since parent handles it */
+            top: auto;
+            left: auto;
+            right: auto;
+        }
+
+        .mission-clock {
+            align-items: flex-end;
+        }
+
+        .timezone-selector {
             align-items: flex-start;
-            z-index: 10;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            animation: fadeIn 1s ease-out 0.5s both;
         }
 
         .timezone-selector label {
@@ -560,13 +614,8 @@
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
 
-    <div class="container">
-        <header>
-            <h1>Artemis II Mission Tracker</h1>
-            <p class="subtitle">Crewed Lunar Flyby</p>
-        </header>
-
-        <div class="video-wrapper">
+    <div class="mission-control-bar">
+        <div class="mission-control-inner">
             <div class="timezone-selector">
                 <label>Timezone</label>
                 <select id="timezone-select" onchange="updateTimezone(this.value)">
@@ -581,63 +630,80 @@
                 <span class="label">Mission Time</span>
                 <span class="time" id="timer">00:00:00</span>
             </div>
-            <div class="video-container">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/m3kR2KK8TEs?si=RL7UtACxLqNa4GLj"
-                    title="YouTube video player" frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
-                </iframe>
-            </div>
         </div>
+    </div>
 
-        <div class="timeline-container">
-            <h2>Live Artemis Trajectory</h2>
-            <div class="flight-path-container">
-                <!-- Our visually stunning background -->
-                <img src="flight_path.png" alt="Artemis Flight Path Background">
-                <svg viewBox="0 0 1000 500" id="flight-svg" preserveAspectRatio="none">
-                    <!-- Invisible or faint dashed path for our figure-8 tracking line -->
-                    <path id="trajectory-line"
-                        d="M 250,250 C 100,50 500,50 500,250 C 500,450 900,450 750,250 C 600,50 500,50 500,250 C 500,450 100,450 250,250"
-                        fill="none" stroke="rgba(56, 189, 248, 0.3)" stroke-width="3" stroke-dasharray="10 15" />
-                </svg>
-                <div id="spaceship" class="spaceship-icon">
-                    <svg viewBox="0 0 24 24" width="32" height="32" fill="#0f172a" stroke="#38bdf8" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path
-                            d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
-                        <path
-                            d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
-                        <path d="M9 12H4s.55-3.03 2-4c1.08-1.62 0-5 0-5" />
-                        <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
-                    </svg>
+    <div class="container">
+        <header>
+            <h1>Artemis II Mission Tracker</h1>
+            <p class="subtitle">Crewed Lunar Flyby</p>
+        </header>
+
+        <div class="main-layout">
+            <div class="primary-column">
+                <div class="video-wrapper">
+                    <div class="video-container">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/m3kR2KK8TEs?si=RL7UtACxLqNa4GLj"
+                            title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+                        </iframe>
+                    </div>
                 </div>
 
-                <div class="speed-controls">
-                    <button class="speed-btn reset-btn" onclick="resetSimulation()" title="Reset to Start">
-                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            style="vertical-align: middle; margin-right: 4px;">
-                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-                            <path d="M3 3v5h5" />
+                <div class="timeline-container">
+                    <h2>Live Artemis Trajectory</h2>
+                    <div class="flight-path-container">
+                        <!-- Our visually stunning background -->
+                        <img src="flight_path.png" alt="Artemis Flight Path Background">
+                        <svg viewBox="0 0 1000 500" id="flight-svg" preserveAspectRatio="none">
+                            <!-- Invisible or faint dashed path for our figure-8 tracking line -->
+                            <path id="trajectory-line"
+                                d="M 250,250 C 100,50 500,50 500,250 C 500,450 900,450 750,250 C 600,50 500,50 500,250 C 500,450 100,450 250,250"
+                                fill="none" stroke="rgba(56, 189, 248, 0.3)" stroke-width="3" stroke-dasharray="10 15" />
                         </svg>
-                        Reset
-                    </button>
-                    <div style="width: 1px; height: 16px; background: rgba(255,255,255,0.2); margin: 0 4px;"></div>
-                    <span class="label">Speed</span>
-                    <button class="speed-btn speed-multiplier active" onclick="setSpeed(1, event)">1x</button>
-                    <button class="speed-btn speed-multiplier" onclick="setSpeed(500, event)">500x</button>
-                    <button class="speed-btn speed-multiplier" onclick="setSpeed(5000, event)">5000x</button>
+                        <div id="spaceship" class="spaceship-icon">
+                            <svg viewBox="0 0 24 24" width="32" height="32" fill="#0f172a" stroke="#38bdf8"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
+                                <path
+                                    d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
+                                <path d="M9 12H4s.55-3.03 2-4c1.08-1.62 0-5 0-5" />
+                                <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+                            </svg>
+                        </div>
+
+                        <div class="speed-controls">
+                            <button class="speed-btn reset-btn" onclick="resetSimulation()" title="Reset to Start">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                    style="vertical-align: middle; margin-right: 4px;">
+                                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                                    <path d="M3 3v5h5" />
+                                </svg>
+                                Reset
+                            </button>
+                            <div style="width: 1px; height: 16px; background: rgba(255,255,255,0.2); margin: 0 4px;">
+                            </div>
+                            <span class="label">Speed</span>
+                            <button class="speed-btn speed-multiplier active" onclick="setSpeed(1, event)">1x</button>
+                            <button class="speed-btn speed-multiplier" onclick="setSpeed(500, event)">500x</button>
+                            <button class="speed-btn speed-multiplier" onclick="setSpeed(5000, event)">5000x</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="timeline-container">
-            <h2 id="timeline-title">Flight Day 01 Timeline</h2>
-            <div class="timeline" id="timeline">
-                <div class="timeline-playhead" id="playhead"></div>
-                <!-- Dynamic Events Container -->
-                <div id="timeline-events"></div>
+            <div class="secondary-column">
+                <div class="timeline-container">
+                    <h2 id="timeline-title">Flight Day 01 Timeline</h2>
+                    <div class="timeline" id="timeline">
+                        <div class="timeline-playhead" id="playhead"></div>
+                        <!-- Dynamic Events Container -->
+                        <div id="timeline-events"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
