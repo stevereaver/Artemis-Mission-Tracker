@@ -52,6 +52,61 @@ Visit the dashboard at `http://localhost:8080`.
    ```
 Visit the dashboard at `http://localhost:8080`.
 
+## 🚢 CI/CD Deployment (Google Cloud Run)
+
+This project includes a GitHub Actions workflow that automatically builds and deploys your dashboard to **Google Cloud Run** whenever you push to the `main` branch.
+
+### 🔑 Required GitHub Secrets
+To enable automated deployment, add the following secrets to your GitHub repository (**Settings > Secrets and variables > Actions**):
+
+| Secret Name | Description |
+| :--- | :--- |
+| `GCP_PROJECT_ID` | Your Google Cloud Project ID (e.g., `my-artemis-project`). |
+| `GCP_SA_KEY` | The full content of your Service Account JSON key file. |
+| `GCP_SERVICE_NAME` | The name for the Cloud Run service (e.g., `artemis-dashboard`). |
+| `GCP_REGION` | The deployment region (e.g., `us-central1`). |
+| `GCP_REPOSITORY` | The name of your Docker Artifact Registry repository (e.g., `artemis-images`). |
+
+### 🛠️ Google Cloud Setup Checklist
+1. **Enable APIs**: Navigate to the GCP Console and enable the **Cloud Run**, **Artifact Registry**, and **Cloud Build** APIs.
+2. **Create Registry**: Create a new **Docker** repository in **Artifact Registry** matching your `GCP_REPOSITORY` name.
+3. **Service Account**: 
+   - Create a Service Account and assign the **Cloud Run Admin**, **Artifact Registry Writer**, and **Service Account User** roles.
+   - Generate a **JSON Key** for this account and paste its content into the `GCP_SA_KEY` GitHub secret.
+
+## 🌍 Terraform Infrastructure Setup
+
+Alternatively, you can use the provided Terraform configuration in the `terraform/` directory to automate the GCP setup.
+
+### 1. Initialize Terraform
+```bash
+cd terraform
+terraform init
+```
+
+### 2. Configure Variables
+Create a `terraform.tfvars` file and fill in your details:
+```hcl
+GCP_PROJECT_ID   = "your-gcp-project-id"
+GCP_REGION       = "us-central1"
+GCP_SERVICE_NAME = "artemis-tracker"
+GCP_REPOSITORY   = "artemis-images"
+```
+
+### 3. Apply Infrastructure
+```bash
+terraform plan
+terraform apply
+```
+
+### 4. Get GitHub Secrets
+After success, Terraform will output the information you need. To see the sensitive Service Account key:
+```bash
+terraform output -raw GCP_SA_KEY
+```
+Copy this output and use it for the `GCP_SA_KEY` secret in GitHub.
+
+
 
 ---
 *Follow the historic return of humanity to the Moon.*
