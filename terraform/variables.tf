@@ -26,4 +26,5 @@ variable "GCP_STATE_BUCKET" {
 variable "GCP_IMAGE" {
   description = "The Docker image name and tag."
   type        = string
+  default     = ""
 }
