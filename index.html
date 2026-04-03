@@ -188,6 +188,7 @@
         }
 
         .timezone-selector,
+        .telemetry-hud,
         .mission-clock {
             position: relative;
             background: rgba(15, 23, 42, 0.4);
@@ -202,9 +203,50 @@
         }
 
         .timezone-selector:hover,
+        .telemetry-hud:hover,
         .mission-clock:hover {
             background: rgba(15, 23, 42, 0.8);
             border-color: rgba(56, 189, 248, 0.4);
+        }
+
+        .telemetry-hud {
+            flex: 0 0 auto;
+            flex-direction: row;
+            gap: 1.5rem;
+            padding: 0.6rem 1.2rem;
+            margin: 0 1rem;
+            border-color: rgba(56, 189, 248, 0.3);
+            background: rgba(15, 23, 42, 0.6);
+        }
+
+        .telemetry-metric {
+            display: flex;
+            flex-direction: column;
+            min-width: 100px;
+        }
+
+        .telemetry-metric .label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .telemetry-metric .value {
+            font-family: inherit;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #38bdf8;
+            letter-spacing: -0.01em;
+        }
+
+        .telemetry-metric .value span {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            margin-left: 4px;
+            font-weight: 500;
         }
 
         .mission-clock {
@@ -630,6 +672,21 @@
                 <p class="subtitle">Crewed Lunar Flyby</p>
             </div>
 
+            <div class="telemetry-hud">
+                <div class="telemetry-metric">
+                    <span class="label">Spacecraft Velocity</span>
+                    <span class="value" id="vel-val">0<span>km/h</span></span>
+                </div>
+                <div class="telemetry-metric">
+                    <span class="label">Distance Earth</span>
+                    <span class="value" id="earth-val">0<span>km</span></span>
+                </div>
+                <div class="telemetry-metric">
+                    <span class="label">Distance Moon</span>
+                    <span class="value" id="moon-val">0<span>km</span></span>
+                </div>
+            </div>
+
             <div class="mission-clock">
                 <span class="label">Mission Time</span>
                 <span class="time" id="timer">00:00:00</span>
@@ -723,8 +780,9 @@
                 { t: 18120, type: 'attitude', color: '#f59e0b', title: 'ICPS Disposal', desc: 'Disposal Burn (0/05:02)' },
                 { t: 19620, type: 'attitude', color: '#10b981', title: 'SPL Deploys', desc: 'Solar Array Panels Deployed (~0/05:27)' },
                 { t: 21600, type: 'crew', color: '#3b82f6', title: 'Cab Cnfg', desc: 'Cabin Configuration for zero-g (~0/06:00)' },
+                { t: 23400, type: 'crew', color: '#3b82f6', title: 'PMC', desc: 'Private Medical Conference (0/06:30)' },
                 { t: 27000, type: 'crew', color: '#3b82f6', title: 'FD Conf', desc: 'First Daily Planning Conference (0/07:30)' },
-                { t: 32400, type: 'crew', color: '#3b82f6', title: 'PMC', desc: 'Private Medical Conference (0/09:00)' },
+                { t: 32400, type: 'crew', color: '#3b82f6', title: 'Day 1 Wrap', desc: 'Final checks before rest cycle (~0/09:00)' },
                 { t: 36000, type: 'crew', color: '#3b82f6', title: 'Sleep (Part 1)', desc: 'First 4-hour rest cycle starts (0/10:00)' },
                 { t: 48600, type: 'attitude', color: '#a78bfa', title: 'Orion PRB', desc: 'Perigee Raise Burn Ignition (0/13:30)' },
                 { t: 51300, type: 'attitude', color: '#a78bfa', title: 'OpNav C/O', desc: 'Optical Navigation Checkout (~0/14:15)' },
@@ -785,7 +843,7 @@
             ]
         ];
 
-        const LAUNCH_DATE_UTC = new Date("2026-04-01T22:00:00Z");
+        const LAUNCH_DATE_UTC = new Date("2026-04-01T22:35:00Z");
         let currentFlightDayIndex = -1;
         let totalSeconds = Math.floor((Date.now() - LAUNCH_DATE_UTC.getTime()) / 1000);
         let timeMultiplier = 1;
@@ -877,8 +935,59 @@
             updateSpaceship();
         }
 
+        function updateTelemetry(seconds) {
+            const metHrs = seconds / 3600;
+            let speed = 0, earthDst = 0, moonDst = 0;
+
+            if (seconds < 0) {
+                // Pre-launch
+                speed = 0;
+                earthDst = 0;
+                moonDst = 384400;
+            } else if (metHrs < 24) {
+                // High Earth Orbit / Prep
+                speed = 28000 + (metHrs / 24) * 2000;
+                earthDst = 35000 + (metHrs / 24) * 5000;
+                moonDst = 384400 - earthDst;
+            } else if (metHrs < 27) {
+                // TLI Burn
+                const f = (metHrs - 24) / 3;
+                speed = 30000 + (f * f) * 8500;
+                earthDst = 40000 + f * 35000;
+                moonDst = 384400 - earthDst;
+            } else if (metHrs < 104.42) {
+                // Translunar Coast
+                const f = (metHrs - 27) / (104.42 - 27);
+                speed = 38500 - Math.pow(f, 0.4) * 35000;
+                earthDst = 75000 + f * 310000;
+                moonDst = 320000 - f * 310000;
+            } else if (metHrs < 118) {
+                // Lunar Flyby Slingshot
+                const f = (metHrs - 104.42) / (118 - 104.42);
+                speed = 3500 + f * 34000;
+                earthDst = 385000 + f * 5000;
+                moonDst = 9650 + Math.pow(f, 2) * 50000;
+            } else {
+                // Return Phase (Post-Flyby)
+                const f = Math.min(1, (metHrs - 118) / (234 - 118));
+                speed = 37500 - f * 10000;
+                earthDst = 390000 - f * 390000;
+                moonDst = 60000 + f * 330000;
+            }
+
+            // Update DOM
+            const velEl = document.getElementById('vel-val');
+            const earthEl = document.getElementById('earth-val');
+            const moonEl = document.getElementById('moon-val');
+            
+            if (velEl) velEl.innerHTML = `${Math.floor(speed).toLocaleString()}<span>km/h</span>`;
+            if (earthEl) earthEl.innerHTML = `${Math.floor(earthDst).toLocaleString()}<span>km</span>`;
+            if (moonEl) moonEl.innerHTML = `${Math.floor(moonDst).toLocaleString()}<span>km</span>`;
+        }
+
         function updateTimer() {
             totalSeconds += timeMultiplier;
+            updateTelemetry(totalSeconds);
 
             let display = '';
 
